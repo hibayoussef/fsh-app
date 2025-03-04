@@ -1,7 +1,7 @@
-import { toast } from "react-toastify";
-import { _axios } from "./http-config";
 import { NavigateFunction } from "react-router-dom";
+import { toast } from "react-toastify";
 import { _AuthApi } from "../services/auth.service";
+import { _axios } from "./http-config";
 
 export const HttpResponseInterceptor = (navigate: NavigateFunction) => {
   _axios.interceptors.response.use(
@@ -9,8 +9,6 @@ export const HttpResponseInterceptor = (navigate: NavigateFunction) => {
       const { config, data } = response;
       const url = config?.url;
       const method = config?.method;
-
-      if (url === "/update-device-token") return response;
 
       if (["post", "put", "patch", "delete"].includes(method || "")) {
         toast.success(data.message, { position: "top-right", autoClose: 3000 });
@@ -23,8 +21,6 @@ export const HttpResponseInterceptor = (navigate: NavigateFunction) => {
       const url = config?.url;
       const status = response?.status;
       const message = response?.data?.message;
-
-      if (url === "/update-device-token") return Promise.reject(error);
 
       const showErrorToast = (msg: string) =>
         toast.error(msg, { position: "top-right", autoClose: 3000 });

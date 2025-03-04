@@ -15,4 +15,13 @@ export default defineConfig({
       },
     }),
   ],
+  server: {
+    proxy: {
+      '/mms': {
+        target: 'https://api.qaym.one',
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/mms/, 'fsh-mms'),
+      },
+    },
+  },
 });
