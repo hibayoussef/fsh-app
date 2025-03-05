@@ -84,10 +84,6 @@ export const _AuthApi = {
 
   destroyToken: () => {
     localStorage.removeItem("token");
-    localStorage.removeItem("role");
     localStorage.removeItem("user");
-    localStorage.removeItem("permissions");
-    localStorage.removeItem("userEmail");
-    window.location.reload();
   },
 };
