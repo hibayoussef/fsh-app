@@ -2,6 +2,7 @@ import PageMeta from "../../components/common/PageMeta";
 import PageWelcom from "../../components/common/PageWelcom";
 import StatisticCard from "../../components/common/StatisticCard";
 import PartnersList from "../../components/partners/PartnersList";
+import BranchesIcon from "../../components/ui/icons/BranchesIcon";
 import ChartIcon from "../../components/ui/icons/ChartIcon";
 import PartnersIcon from "../../components/ui/icons/PartnersIcon";
 
@@ -13,7 +14,7 @@ const Branches = () => {
         <h2 className="text-[#222B45] font-semibold">Branches</h2>
         <div className="space-y-3">
           <PageWelcom
-            Icon={PartnersIcon}
+            Icon={BranchesIcon}
             content="You're now in the Merchant Management page! Here, you can easily view, add, update, or remove merchant details. Stay organized and manage your 
 
 merchants efficiently to ensure smooth operations and successful partnerships—all in one place!"

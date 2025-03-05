@@ -3,6 +3,7 @@ import PageWelcom from "../../components/common/PageWelcom";
 import StatisticCard from "../../components/common/StatisticCard";
 import PartnersList from "../../components/partners/PartnersList";
 import ChartIcon from "../../components/ui/icons/ChartIcon";
+import MerchantsIcon from "../../components/ui/icons/MerchantsIcon";
 import PartnersIcon from "../../components/ui/icons/PartnersIcon";
 
 const Merchants = () => {
@@ -13,7 +14,7 @@ const Merchants = () => {
         <h2 className="text-[#222B45] font-semibold">Merchants</h2>
         <div className="space-y-3">
           <PageWelcom
-            Icon={PartnersIcon}
+            Icon={MerchantsIcon}
             content="You're now in the Merchant Management page! Here, you can easily view, add, update, or remove merchant details. Stay organized and manage your 
 
 merchants efficiently to ensure smooth operations and successful partnerships—all in one place!"

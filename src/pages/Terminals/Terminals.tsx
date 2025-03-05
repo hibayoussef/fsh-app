@@ -4,6 +4,7 @@ import StatisticCard from "../../components/common/StatisticCard";
 import PartnersList from "../../components/partners/PartnersList";
 import ChartIcon from "../../components/ui/icons/ChartIcon";
 import PartnersIcon from "../../components/ui/icons/PartnersIcon";
+import TerminalsIcon from "../../components/ui/icons/TerminalsIcon";
 
 const Terminals = () => {
   return (
@@ -13,7 +14,7 @@ const Terminals = () => {
         <h2 className="text-[#222B45] font-semibold">Terminals</h2>
         <div className="space-y-3">
           <PageWelcom
-            Icon={PartnersIcon}
+            Icon={TerminalsIcon}
             content="You're now in the Terminals Management page! Here, you can effortlessly view, add, update, or remove terminal details. Keep your terminal operations 
 streamlined and efficient to support seamless transactions and successful partnerships—all in one place!"
           />
