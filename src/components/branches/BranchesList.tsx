@@ -13,7 +13,7 @@ import Input from "../form/input/InputField";
 import Label from "../form/Label";
 import FileInput from "../form/input/FileInput";
 
-const PartnersList = () => {
+const MerchantsList = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const { data, isLoading } = useFetchOrganizationsByType("PARTNER");
@@ -33,7 +33,7 @@ const PartnersList = () => {
     },
     {
       header: "View As Chart",
-      render: () => (
+      render: (row) => (
         <Link to="#">
           <AltChartIcon />
         </Link>
@@ -41,11 +41,11 @@ const PartnersList = () => {
     },
     {
       header: "Activate",
-      render: () => <Switch label="Activate" />,
+      render: (row) => <Switch label="Activate" />,
     },
     {
       header: "Actions",
-      render: () => (
+      render: (row) => (
         <div className="flex gap-3">
           <Button size="icon">
             <PencilIcon />
@@ -122,4 +122,4 @@ const PartnersList = () => {
   );
 };
 
-export default PartnersList;
+export default MerchantsList;

@@ -13,7 +13,7 @@ import Input from "../form/input/InputField";
 import Label from "../form/Label";
 import FileInput from "../form/input/FileInput";
 
-const PartnersList = () => {
+const MerchantsList = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const { data, isLoading } = useFetchOrganizationsByType("PARTNER");
@@ -122,4 +122,4 @@ const PartnersList = () => {
   );
 };
 
-export default PartnersList;
+export default MerchantsList;

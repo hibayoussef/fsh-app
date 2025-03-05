@@ -5,7 +5,7 @@ import PartnersList from "../../components/partners/PartnersList";
 import ChartIcon from "../../components/ui/icons/ChartIcon";
 import PartnersIcon from "../../components/ui/icons/PartnersIcon";
 
-const Partners = () => {
+const Branches = () => {
   return (
     <>
       <PageMeta title="FSH" description="Partners" />
@@ -42,4 +42,4 @@ const Partners = () => {
   );
 };
 
-export default Partners;
+export default Branches;

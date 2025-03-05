@@ -25,6 +25,21 @@ const navItems: NavItem[] = [
     path: "/partners",
   },
   {
+    icon: <PartnersIcon />,
+    name: "Merchants",
+    path: "/merchants ",
+  },
+  {
+    icon: <PartnersIcon />,
+    name: "Branches",
+    path: "/branches ",
+  },
+  {
+    icon: <PartnersIcon />,
+    name: "Terminals",
+    path: "/terminals ",
+  },
+  {
     name: "Admin",
     icon: <TableIcon />,
     subItems: [{ name: "Manage", path: "/basic-tables", pro: false }],
