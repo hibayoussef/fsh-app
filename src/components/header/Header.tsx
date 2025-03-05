@@ -1,9 +1,8 @@
 import { useState } from "react";
+import { Link } from "react-router";
 import { ThemeToggleButton } from "../common/ThemeToggleButton";
 import NotificationDropdown from "./NotificationDropdown";
 import UserDropdown from "./UserDropdown";
-import { Link } from "react-router";
-import { useFetchCurrentUser } from "../../hooks/useProfile";
 
 // Define the interface for the props
 interface HeaderProps {
@@ -12,7 +11,6 @@ interface HeaderProps {
 }
 const Header: React.FC<HeaderProps> = ({ onClick, onToggle }) => {
   const [isApplicationMenuOpen, setApplicationMenuOpen] = useState(false);
-  const { data: user, error, isLoading } = useFetchCurrentUser(); 
 
   const toggleApplicationMenu = () => {
     setApplicationMenuOpen(!isApplicationMenuOpen);

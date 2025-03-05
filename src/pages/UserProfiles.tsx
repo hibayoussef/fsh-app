@@ -1,10 +1,11 @@
 import PageBreadcrumb from "../components/common/PageBreadCrumb";
-import UserMetaCard from "../components/UserProfile/UserMetaCard";
-import UserInfoCard from "../components/UserProfile/UserInfoCard";
-import UserAddressCard from "../components/UserProfile/UserAddressCard";
 import PageMeta from "../components/common/PageMeta";
+import UserInfoCard from "../components/UserProfile/UserInfoCard";
+import UserMetaCard from "../components/UserProfile/UserMetaCard";
+import { useFetchCurrentUser } from "../hooks/useProfile";
 
 export default function UserProfiles() {
+  const { data: user } = useFetchCurrentUser();
   return (
     <>
       <PageMeta
@@ -17,9 +18,9 @@ export default function UserProfiles() {
           Profile
         </h3>
         <div className="space-y-6">
-          <UserMetaCard />
-          <UserInfoCard />
-          <UserAddressCard />
+          <UserMetaCard user={user} />{" "}
+          <UserInfoCard user={user} />{" "}
+          {/* <UserAddressCard user={user} />{" "} */}
         </div>
       </div>
     </>
