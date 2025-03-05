@@ -1,12 +1,12 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router";
-import PartnersIcon from "../components/ui/icons/PartnersIcon";
-import { useSidebar } from "../context/SidebarContext";
-import { ChevronDownIcon, GridIcon, HorizontaLDots } from "../icons";
-import TerminalsIcon from "../components/ui/icons/TerminalsIcon";
 import BranchesIcon from "../components/ui/icons/BranchesIcon";
-import MerchantsIcon from "../components/ui/icons/MerchantsIcon";
 import DashboardIcon from "../components/ui/icons/DashboardIcon";
+import MerchantsIcon from "../components/ui/icons/MerchantsIcon";
+import PartnersIcon from "../components/ui/icons/PartnersIcon";
+import TerminalsIcon from "../components/ui/icons/TerminalsIcon";
+import { useSidebar } from "../context/SidebarContext";
+import { ChevronDownIcon, HorizontaLDots } from "../icons";
 
 type NavItem = {
   name: string;
@@ -93,24 +93,25 @@ const AppSidebar: React.FC = () => {
           {nav.subItems ? (
             <button
               onClick={() => handleSubmenuToggle(index, menuType)}
-              className={`flex items-center w-full gap-4 px-4 py-3 transition-colors duration-200 hover:text-[#49CFB0] ${
+              className={`flex items-center w-full gap-4 px-4 py-3 transition-colors duration-200 ${
                 openSubmenu?.type === menuType && openSubmenu?.index === index
                   ? "text-[#49CFB0]"
-                  : "text-[#F7F9FC]"
+                  : "text-[#F7F9FC] hover:text-[#49CFB0]"
               } ${
                 !isExpanded && !isHovered
                   ? "lg:justify-center"
                   : "lg:justify-start"
               }`}
             >
-              <span
-                className={`w-6 h-6 ${
-                  openSubmenu?.type === menuType && openSubmenu?.index === index
-                    ? "text-[#49CFB0]"
-                    : "text-[#F7F9FC]"
-                }`}
-              >
-                {nav.icon}
+              <span className="w-6 h-6">
+                {React.cloneElement(nav.icon as React.ReactElement, {
+                  className: `${
+                    openSubmenu?.type === menuType &&
+                    openSubmenu?.index === index
+                      ? "text-[#49CFB0]"
+                      : "text-[#F7F9FC]"
+                  } hover:text-[#49CFB0]`,
+                })}
               </span>
               {(isExpanded || isHovered || isMobileOpen) && (
                 <span className="text-sm font-medium">{nav.name}</span>
