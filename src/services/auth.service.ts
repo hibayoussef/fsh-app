@@ -1,3 +1,4 @@
+import axios from "axios";
 import { _axios } from "../interceptor/http-config";
 import type { ILoginDTO, ILoginRequest } from "../types/auth";
 
@@ -26,7 +27,7 @@ export const _AuthApi = {
   // LOGOUT
   logout: async () => {
     try {
-      const res = await _axios.post("/api/auth/logout");
+      const res = await axios.post("https://fsh-g.com/identity/person/logout");
       _AuthApi.destroyToken();
       return res.data;
     } catch (error) {
