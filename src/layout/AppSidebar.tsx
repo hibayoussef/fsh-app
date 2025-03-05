@@ -2,7 +2,11 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router";
 import PartnersIcon from "../components/ui/icons/PartnersIcon";
 import { useSidebar } from "../context/SidebarContext";
-import { ChevronDownIcon, GridIcon, HorizontaLDots, TableIcon } from "../icons";
+import { ChevronDownIcon, GridIcon, HorizontaLDots } from "../icons";
+import TerminalsIcon from "../components/ui/icons/TerminalsIcon";
+import BranchesIcon from "../components/ui/icons/BranchesIcon";
+import MerchantsIcon from "../components/ui/icons/MerchantsIcon";
+import DashboardIcon from "../components/ui/icons/DashboardIcon";
 
 type NavItem = {
   name: string;
@@ -13,7 +17,7 @@ type NavItem = {
 
 const navItems: NavItem[] = [
   {
-    icon: <GridIcon />,
+    icon: <DashboardIcon />,
     name: "Dashboard",
     path: "/",
   },
@@ -23,17 +27,17 @@ const navItems: NavItem[] = [
     path: "/partners",
   },
   {
-    icon: <PartnersIcon />,
+    icon: <MerchantsIcon />,
     name: "Merchants",
     path: "/merchants",
   },
   {
-    icon: <PartnersIcon />,
+    icon: <BranchesIcon />,
     name: "Branches",
     path: "/branches",
   },
   {
-    icon: <PartnersIcon />,
+    icon: <TerminalsIcon />,
     name: "Terminals",
     path: "/terminals",
   },
