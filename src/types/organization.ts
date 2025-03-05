@@ -18,3 +18,13 @@ export interface OrganizationUser {
   organization: OrganizationModel;
   role: string | null;
 }
+
+export interface UserMeModel {
+  id: string;
+  firstName: string;
+  lastName: string;
+  email: string;
+  roleNames: string[];
+  profileImageURL: string;
+  organizations: OrganizationModel[];
+}
