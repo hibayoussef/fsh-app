@@ -21,7 +21,7 @@ const MerchantsList = () => {
   const COLUMNS: Column<OrganizationModel>[] = [
     {
       key: "name",
-      header: "Partner Name",
+      header: "Merchant Name",
     },
     {
       key: "description",
