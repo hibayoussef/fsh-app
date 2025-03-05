@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router";
 
 import { useSidebar } from "../context/SidebarContext";
 import { ChevronDownIcon, GridIcon, HorizontaLDots, TableIcon } from "../icons";
+import PartnersIcon from "../components/ui/icons/PartnersIcon";
 
 type NavItem = {
   name: string;
@@ -17,6 +18,11 @@ const navItems: NavItem[] = [
     name: "Dashboard",
     path: "/",
     // subItems: [{ name: "Ecommerce", path: "/", pro: false }],
+  },
+  {
+    icon: <PartnersIcon />,
+    name: "Partners",
+    path: "/partners",
   },
   {
     name: "Admin",

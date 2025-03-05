@@ -5,7 +5,7 @@ import Label from "../form/Label";
 import Checkbox from "../form/input/Checkbox";
 import Input from "../form/input/InputField";
 import Button from "../ui/button/Button";
-import { useLogin } from "../../hooks/useLogin";
+import { useLogin } from "../../hooks/useAuth";
 
 export default function SignInForm() {
   const [showPassword, setShowPassword] = useState(false);

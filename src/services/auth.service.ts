@@ -1,4 +1,3 @@
-
 import { _axios } from "../interceptor/http-config";
 import type { ILoginDTO, ILoginRequest } from "../types/auth";
 
@@ -6,7 +5,7 @@ export const _AuthApi = {
   // LOGIN
   login: async (data: ILoginRequest) => {
     const res = await _axios.post<ILoginDTO>("/users/login", data);
-    return res.data;
+    return res;
   },
 
   //   // FORGOT PASSWORD
@@ -25,9 +24,9 @@ export const _AuthApi = {
   //   },
 
   // LOGOUT
-//   logout: async () => {
-//     return await _axios.post<any>("/logout");
-//   },
+  //   logout: async () => {
+  //     return await _axios.post<any>("/logout");
+  //   },
 
   // STORE TOKEN
   storeToken: (token: string) => {

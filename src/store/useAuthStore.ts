@@ -1,14 +1,15 @@
 import { create } from "zustand";
-import type { ILoginRequest } from "../types/auth";
+import type { ILoginDTO } from "../types/auth";
 import type { AuthState } from "../types/store";
 
 export const useAuthStore = create<AuthState>((set) => ({
   token: localStorage.getItem("token") || null,
   isAuthenticated: !!localStorage.getItem("token"),
+  user: JSON.parse(localStorage.getItem("user")!) || null,
 
-  login: (userData: ILoginRequest, token: string) => {
+  login: (userData: ILoginDTO, token: string) => {
     localStorage.setItem("token", token);
-
+    localStorage.setItem("user", JSON.stringify(userData));
     set({
       token,
       isAuthenticated: true,
@@ -17,12 +18,12 @@ export const useAuthStore = create<AuthState>((set) => ({
 
   logout: () => {
     localStorage.removeItem("token");
-    localStorage.removeItem("permissions");
+    localStorage.removeItem("user");
 
     set({
       token: null,
       isAuthenticated: false,
-      permissions: [],
+      user: null,
     });
   },
 }));

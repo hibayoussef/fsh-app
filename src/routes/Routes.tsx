@@ -1,5 +1,5 @@
 // src/routes/Routes.tsx
-import { Routes, Route } from "react-router";
+import { Routes, Route, Navigate } from "react-router";
 import SignIn from "../pages/AuthPages/SignIn";
 import SignUp from "../pages/AuthPages/SignUp";
 import NotFound from "../pages/OtherPage/NotFound";
@@ -19,36 +19,48 @@ import Blank from "../pages/Blank";
 import AppLayout from "../layout/AppLayout";
 import Home from "../pages/Dashboard/Home";
 import ForgotPassword from "../pages/AuthPages/ForgotPassword";
+import { useAuthStore } from "../store/useAuthStore";
+import Partners from "../pages/Partners/Partners";
 
 const RoutesComponent = () => {
+  const { isAuthenticated } = useAuthStore();
   return (
     <Routes>
       {/* Dashboard Layout */}
-      <Route element={<AppLayout />}>
-        <Route index path="/" element={<Home />} />
-        <Route path="/profile" element={<UserProfiles />} />
-        <Route path="/calendar" element={<Calendar />} />
-        <Route path="/blank" element={<Blank />} />
-        <Route path="/form-elements" element={<FormElements />} />
-        <Route path="/basic-tables" element={<BasicTables />} />
-        <Route path="/alerts" element={<Alerts />} />
-        <Route path="/avatars" element={<Avatars />} />
-        <Route path="/badge" element={<Badges />} />
-        <Route path="/buttons" element={<Buttons />} />
-        <Route path="/images" element={<Images />} />
-        <Route path="/videos" element={<Videos />} />
-        <Route path="/line-chart" element={<LineChart />} />
-        <Route path="/bar-chart" element={<BarChart />} />
-      </Route>
+      {isAuthenticated && (
+        <Route element={<AppLayout />}>
+          <Route index path="/" element={<Home />} />
+          <Route path="/partners" element={<Partners />} />
+          <Route path="/profile" element={<UserProfiles />} />
+          <Route path="/calendar" element={<Calendar />} />
+          <Route path="/blank" element={<Blank />} />
+          <Route path="/form-elements" element={<FormElements />} />
+          <Route path="/basic-tables" element={<BasicTables />} />
+          <Route path="/alerts" element={<Alerts />} />
+          <Route path="/avatars" element={<Avatars />} />
+          <Route path="/badge" element={<Badges />} />
+          <Route path="/buttons" element={<Buttons />} />
+          <Route path="/images" element={<Images />} />
+          <Route path="/videos" element={<Videos />} />
+          <Route path="/line-chart" element={<LineChart />} />
+          <Route path="/bar-chart" element={<BarChart />} />
+          <Route path="*" element={<NotFound />} />
+        </Route>
+      )}
 
       {/* Auth Layout */}
-      <Route path="/signin" element={<SignIn />} />
-      <Route path="/signup" element={<SignUp />} />
-      <Route path="/forgot-password" element={<ForgotPassword />} />
-      <Route path="/reset-password" element={<ForgotPassword />} />
+      {!isAuthenticated && (
+        <>
+          <Route path="/signin" element={<SignIn />} />
+          {/* <Route path="/signup" element={<SignUp />} /> */}
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ForgotPassword />} />
+          <Route path="*" element={<Navigate to="/signin" />} />
+        </>
+      )}
 
       {/* Fallback Route */}
-      <Route path="*" element={<NotFound />} />
+      {/* <Route path="*" element={<NotFound />} /> */}
     </Routes>
   );
 };
