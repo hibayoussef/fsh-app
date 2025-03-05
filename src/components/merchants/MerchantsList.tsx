@@ -24,20 +24,27 @@ const MerchantsList = () => {
       header: "Merchant Name",
     },
     {
-      key: "description",
-      header: "Description",
-    },
-    {
       header: "Users",
       render: (row) => <Link to={`/partners/${row.id}`}>View Users</Link>,
     },
     {
       header: "View As Chart",
       render: () => (
-        <Link to="#">
-          <AltChartIcon />
-        </Link>
+        <div className="flex justify-center items-center w-full text-center">
+          <Link to="#">
+            <AltChartIcon />
+          </Link>
+        </div>
       ),
+    },
+
+    {
+      key: "created_at",
+      header: "Created at",
+    },
+    {
+      key: "updated_at",
+      header: "Updated at",
     },
     {
       header: "Activate",

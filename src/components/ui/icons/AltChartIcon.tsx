@@ -3,7 +3,7 @@ import React from "react";
 const AltChartIcon = (props: React.SVGProps<SVGSVGElement>) => {
   return (
     <svg
-      width="24"
+      width="20"
       height="27"
       viewBox="0 0 24 27"
       fill="none"

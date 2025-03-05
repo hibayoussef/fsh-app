@@ -1,7 +1,7 @@
+import BranchesList from "../../components/branches/BranchesList";
 import PageMeta from "../../components/common/PageMeta";
 import PageWelcom from "../../components/common/PageWelcom";
 import StatisticCard from "../../components/common/StatisticCard";
-import PartnersList from "../../components/partners/PartnersList";
 import BranchesIcon from "../../components/ui/icons/BranchesIcon";
 import ChartIcon from "../../components/ui/icons/ChartIcon";
 import PartnersIcon from "../../components/ui/icons/PartnersIcon";
@@ -39,7 +39,7 @@ merchants efficiently to ensure smooth operations and successful partnerships—
             />
           </div>
         </div>
-        <PartnersList />
+        <BranchesList />
       </div>
     </>
   );

@@ -1,7 +1,7 @@
 import PageMeta from "../../components/common/PageMeta";
 import PageWelcom from "../../components/common/PageWelcom";
 import StatisticCard from "../../components/common/StatisticCard";
-import PartnersList from "../../components/partners/PartnersList";
+import MerchantsList from "../../components/merchants/MerchantsList";
 import ChartIcon from "../../components/ui/icons/ChartIcon";
 import MerchantsIcon from "../../components/ui/icons/MerchantsIcon";
 import PartnersIcon from "../../components/ui/icons/PartnersIcon";
@@ -39,7 +39,7 @@ merchants efficiently to ensure smooth operations and successful partnerships—
             />
           </div>
         </div>
-        <PartnersList />
+        <MerchantsList />
       </div>
     </>
   );

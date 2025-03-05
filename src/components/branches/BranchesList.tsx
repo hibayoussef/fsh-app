@@ -13,7 +13,7 @@ import Input from "../form/input/InputField";
 import Label from "../form/Label";
 import FileInput from "../form/input/FileInput";
 
-const MerchantsList = () => {
+const BranchesList = () => {
   const [isOpen, setIsOpen] = useState(false);
 
   const { data, isLoading } = useFetchOrganizationsByType("PARTNER");
@@ -21,11 +21,7 @@ const MerchantsList = () => {
   const COLUMNS: Column<OrganizationModel>[] = [
     {
       key: "name",
-      header: "Partner Name",
-    },
-    {
-      key: "description",
-      header: "Description",
+      header: "Merchant Name",
     },
     {
       header: "Users",
@@ -33,19 +29,30 @@ const MerchantsList = () => {
     },
     {
       header: "View As Chart",
-      render: (row) => (
-        <Link to="#">
-          <AltChartIcon />
-        </Link>
+      render: () => (
+        <div className="flex justify-center items-center w-full text-center">
+          <Link to="#">
+            <AltChartIcon />
+          </Link>
+        </div>
       ),
+    },
+
+    {
+      key: "created_at",
+      header: "Created at",
+    },
+    {
+      key: "updated_at",
+      header: "Updated at",
     },
     {
       header: "Activate",
-      render: (row) => <Switch label="Activate" />,
+      render: () => <Switch label="Activate" />,
     },
     {
       header: "Actions",
-      render: (row) => (
+      render: () => (
         <div className="flex gap-3">
           <Button size="icon">
             <PencilIcon />
@@ -57,7 +64,6 @@ const MerchantsList = () => {
       ),
     },
   ];
-
   function handleOpen() {
     setIsOpen(true);
   }
@@ -122,4 +128,4 @@ const MerchantsList = () => {
   );
 };
 
-export default MerchantsList;
+export default BranchesList;

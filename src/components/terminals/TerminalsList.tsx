@@ -21,11 +21,7 @@ const TerminalsList = () => {
   const COLUMNS: Column<OrganizationModel>[] = [
     {
       key: "name",
-      header: "Partner Name",
-    },
-    {
-      key: "description",
-      header: "Description",
+      header: "Merchant Name",
     },
     {
       header: "Users",
@@ -34,10 +30,21 @@ const TerminalsList = () => {
     {
       header: "View As Chart",
       render: () => (
-        <Link to="#">
-          <AltChartIcon />
-        </Link>
+        <div className="flex justify-center items-center w-full text-center">
+          <Link to="#">
+            <AltChartIcon />
+          </Link>
+        </div>
       ),
+    },
+
+    {
+      key: "created_at",
+      header: "Created at",
+    },
+    {
+      key: "updated_at",
+      header: "Updated at",
     },
     {
       header: "Activate",
