@@ -40,6 +40,11 @@ const navItems: NavItem[] = [
     icon: <TerminalsIcon />,
     name: "Terminals",
     path: "/terminals",
+  },
+  {
+    icon: <TerminalsIcon />,
+    name: "Users",
+    path: "/users",
   }
 ];
 

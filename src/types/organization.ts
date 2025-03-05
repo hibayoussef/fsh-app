@@ -2,6 +2,8 @@ import { ILoginDTO } from "./auth";
 
 export interface OrganizationModel {
   id: number;
+  first_name: string;
+  last_name: string;
   type: {
     id: number;
     name: string;

@@ -27,6 +27,7 @@ import Images from "../pages/UiElements/Images";
 import Videos from "../pages/UiElements/Videos";
 import UserProfiles from "../pages/UserProfiles";
 import { useAuthStore } from "../store/useAuthStore";
+import Users from "../pages/Users/Users";
 
 const RoutesComponent = () => {
   const { isAuthenticated } = useAuthStore();
@@ -44,6 +45,7 @@ const RoutesComponent = () => {
           <Route path="/branches/:id" element={<UsersBranches />} />
           <Route path="/terminals" element={<Terminals />} />
           <Route path="/terminals/:id" element={<UsersTerminals />} />
+          <Route path="/users" element={<Users />} />
 
           <Route path="/profile" element={<UserProfiles />} />
           <Route path="/calendar" element={<Calendar />} />
