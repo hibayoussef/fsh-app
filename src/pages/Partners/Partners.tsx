@@ -3,6 +3,9 @@ import PartnersIcon from "../../components/ui/icons/PartnersIcon";
 import PageWelcom from "../../components/common/PageWelcom";
 import StatisticCard from "../../components/common/StatisticCard";
 import ChartIcon from "../../components/ui/icons/ChartIcon";
+import ComponentCard from "../../components/common/ComponentCard";
+import BasicTableOne from "../../components/tables/BasicTables/BasicTableOne";
+import PartnersList from "../../components/partners/PartnersList";
 
 const Partners = () => {
   return (
@@ -35,9 +38,7 @@ const Partners = () => {
             />
           </div>
         </div>
-        <div className="space-y-3">
-          <h2 className="text-label font-semibold ">Partners in our system</h2>
-        </div>
+        <PartnersList />
       </div>
     </>
   );
