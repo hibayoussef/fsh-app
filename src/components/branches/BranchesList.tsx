@@ -113,7 +113,7 @@ const MerchantsList = () => {
         </div>
       </Modal>
       <h2 className="text-label font-semibold " onClick={handleOpen}>
-        Partners in our system
+        Branches in our system
       </h2>
       <ComponentCard title="Basic Table 1">
         {data && <DataTable data={data} columns={COLUMNS} />}
