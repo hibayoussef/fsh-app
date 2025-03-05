@@ -8,3 +8,11 @@ export const useFetchOrganizationsByType = (type: string) => {
     queryFn: () => _OrganizationApi.getOrganizationsByType(type),
   });
 };
+
+export const useFetchOrganizationUsers = (id: string) => {
+  return useQuery({
+    queryKey: [queryKeys.ORGANIZATION_USERS, id],
+    queryFn: () => _OrganizationApi.getOrganizationUsers(id),
+    enabled: !!id,
+  });
+};

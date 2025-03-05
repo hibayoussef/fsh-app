@@ -21,6 +21,7 @@ import Home from "../pages/Dashboard/Home";
 import ForgotPassword from "../pages/AuthPages/ForgotPassword";
 import { useAuthStore } from "../store/useAuthStore";
 import Partners from "../pages/Partners/Partners";
+import UsersPartners from "../pages/Partners/Users";
 
 const RoutesComponent = () => {
   const { isAuthenticated } = useAuthStore();
@@ -31,6 +32,7 @@ const RoutesComponent = () => {
         <Route element={<AppLayout />}>
           <Route index path="/" element={<Home />} />
           <Route path="/partners" element={<Partners />} />
+          <Route path="/partners/:id" element={<UsersPartners />} />
           <Route path="/profile" element={<UserProfiles />} />
           <Route path="/calendar" element={<Calendar />} />
           <Route path="/blank" element={<Blank />} />

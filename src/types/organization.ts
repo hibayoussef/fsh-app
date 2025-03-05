@@ -1,3 +1,5 @@
+import { ILoginDTO } from "./auth";
+
 export interface OrganizationModel {
   id: number;
   type: {
@@ -9,4 +11,10 @@ export interface OrganizationModel {
   description: string;
   leaf: boolean;
   enabled: boolean;
+}
+
+export interface OrganizationUser {
+  person: ILoginDTO;
+  organization: OrganizationModel;
+  role: string | null;
 }

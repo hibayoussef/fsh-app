@@ -6,7 +6,7 @@ import DataTable, { Column } from "../common/DataTable";
 import Switch from "../form/switch/Switch";
 import Button from "../ui/button/Button";
 import { PencilIcon, TrashBinIcon } from "../../icons";
-import ChartIcon from "../ui/icons/ChartIcon";
+import AltChartIcon from "../ui/icons/AltChartIcon";
 
 const PartnersList = () => {
   const { data, isLoading } = useFetchOrganizationsByType("PARTNER");
@@ -22,13 +22,13 @@ const PartnersList = () => {
     },
     {
       header: "Users",
-      render: (row) => <Link to="#">View Users</Link>,
+      render: (row) => <Link to={`/partners/${row.id}`}>View Users</Link>,
     },
     {
       header: "View As Chart",
       render: (row) => (
         <Link to="#">
-          <ChartIcon />
+          <AltChartIcon />
         </Link>
       ),
     },
