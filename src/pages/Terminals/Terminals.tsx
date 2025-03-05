@@ -1,7 +1,7 @@
 import PageMeta from "../../components/common/PageMeta";
 import PageWelcom from "../../components/common/PageWelcom";
 import StatisticCard from "../../components/common/StatisticCard";
-import PartnersList from "../../components/partners/PartnersList";
+import TerminalsList from "../../components/terminals/TerminalsList";
 import ChartIcon from "../../components/ui/icons/ChartIcon";
 import PartnersIcon from "../../components/ui/icons/PartnersIcon";
 import TerminalsIcon from "../../components/ui/icons/TerminalsIcon";
@@ -38,7 +38,7 @@ streamlined and efficient to support seamless transactions and successful partne
             />
           </div>
         </div>
-        <PartnersList />
+        <TerminalsList />
       </div>
     </>
   );
