@@ -8,28 +8,29 @@ import PartnersIcon from "../../components/ui/icons/PartnersIcon";
 const Terminals = () => {
   return (
     <>
-      <PageMeta title="FSH" description="Partners" />
+      <PageMeta title="FSH" description="Terminals" />
       <div className="space-y-5">
-        <h2 className="text-[#222B45] font-semibold">Partners</h2>
+        <h2 className="text-[#222B45] font-semibold">Terminals</h2>
         <div className="space-y-3">
           <PageWelcom
             Icon={PartnersIcon}
-            content="Welcome to the Partner Management page! Here, you can view, add, update, or remove partners with ease. Keep everything organized and ensure smooth collaboration by managing partner details directly from this page. It's all at your fingertips!"
+            content="You're now in the Terminals Management page! Here, you can effortlessly view, add, update, or remove terminal details. Keep your terminal operations 
+streamlined and efficient to support seamless transactions and successful partnerships—all in one place!"
           />
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
             <StatisticCard
-              title="# Total number of partners"
+              title="# Total number of terminals"
               number="132"
               icon={<PartnersIcon fill="#64748B" width={30} height={30} />}
             />
             <StatisticCard
-              title="Average revenue from partners"
+              title="Average revenue from terminals"
               number="112"
               icon={<ChartIcon fill="#00FF3A" width={30} height={30} />}
               className="bg-primary text-white"
             />
             <StatisticCard
-              title="# Recently added partners"
+              title="# Recently added terminals"
               number="54"
               icon={<PartnersIcon fill="#fff" width={30} height={30} />}
               className="bg-[#919293] text-white"

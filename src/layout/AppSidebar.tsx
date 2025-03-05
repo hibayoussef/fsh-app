@@ -1,9 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { Link, useLocation } from "react-router";
-
+import PartnersIcon from "../components/ui/icons/PartnersIcon";
 import { useSidebar } from "../context/SidebarContext";
 import { ChevronDownIcon, GridIcon, HorizontaLDots, TableIcon } from "../icons";
-import PartnersIcon from "../components/ui/icons/PartnersIcon";
 
 type NavItem = {
   name: string;
@@ -222,7 +221,9 @@ const AppSidebar: React.FC = () => {
                   {nav.icon}
                 </span>
                 {(isExpanded || isHovered || isMobileOpen) && (
-                  <span className="menu-item-text">{nav.name}</span>
+                  <span className="menu-item-text text-[#F7F9FC]">
+                    {nav.name}
+                  </span>
                 )}
               </Link>
             )
@@ -340,13 +341,7 @@ const AppSidebar: React.FC = () => {
         <nav className="mb-6">
           <div className="flex flex-col gap-4">
             <div>
-              <h2
-                className={`mb-4 text-xs uppercase flex leading-[20px] text-gray-400 ${
-                  !isExpanded && !isHovered
-                    ? "lg:justify-center"
-                    : "justify-start"
-                }`}
-              >
+              <h2 className="mb-4 text-xs uppercase flex leading-[20px] text-[#F7F9FC]">
                 {isExpanded || isHovered || isMobileOpen ? (
                   "Menu"
                 ) : (

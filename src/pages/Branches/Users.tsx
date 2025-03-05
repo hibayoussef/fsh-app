@@ -41,7 +41,7 @@ const UsersBranches = () => {
 
   return (
     <div className="space-y-3">
-      <h2>[Partner Name]/Users</h2>
+      <h2>[Branch Name]/Users</h2>
       <ComponentCard title="">
         {data && <DataTable data={data} columns={COLUMNS} />}
       </ComponentCard>
