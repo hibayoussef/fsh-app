@@ -1,16 +1,15 @@
 import { useState } from "react";
-import { DropdownItem } from "../ui/dropdown/DropdownItem";
-import { Dropdown } from "../ui/dropdown/Dropdown";
 import { useNavigate } from "react-router";
-import { useAuthStore } from "../../store/useAuthStore";
 import { useFetchCurrentUser } from "../../hooks/useProfile";
+import { _AuthApi } from "../../services/auth.service";
+import { Dropdown } from "../ui/dropdown/Dropdown";
+import { DropdownItem } from "../ui/dropdown/DropdownItem";
 
 export default function UserDropdown() {
   const [isOpen, setIsOpen] = useState(false);
 
-  const { logout } = useAuthStore();
   const { data: user } = useFetchCurrentUser();
-  
+
   const navigate = useNavigate();
 
   function toggleDropdown() {
@@ -21,9 +20,13 @@ export default function UserDropdown() {
     setIsOpen(false);
   }
 
-  function handleLogout() {
-    logout();
-    navigate("/signin");
+  async function handleLogout() {
+    try {
+      await _AuthApi.logout();
+      navigate("/signin");
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
   }
 
   return (

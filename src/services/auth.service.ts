@@ -24,9 +24,16 @@ export const _AuthApi = {
   //   },
 
   // LOGOUT
-  //   logout: async () => {
-  //     return await _axios.post<any>("/logout");
-  //   },
+  logout: async () => {
+    try {
+      const res = await _axios.post("/api/auth/logout");
+      _AuthApi.destroyToken();
+      return res.data;
+    } catch (error) {
+      console.error("Logout failed:", error);
+      throw error;
+    }
+  },
 
   // STORE TOKEN
   storeToken: (token: string) => {
