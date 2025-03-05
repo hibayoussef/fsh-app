@@ -40,33 +40,7 @@ const navItems: NavItem[] = [
     icon: <TerminalsIcon />,
     name: "Terminals",
     path: "/terminals",
-  },
-  // {
-  //   name: "Admin",
-  //   icon: <TableIcon />,
-  //   subItems: [{ name: "Manage", path: "/basic-tables", pro: false }],
-  // },
-  // {
-  //   name: "Partner Management",
-  //   icon: <TableIcon />,
-  //   subItems: [
-  //     { name: "Hierarchy", path: "/basic-tables", pro: false },
-  //     { name: "Partner", path: "/basic-tables", pro: false },
-  //     { name: "Merchants", path: "/basic-tables", pro: false },
-  //     { name: "Branches", path: "/basic-tables", pro: false },
-  //     { name: "Terminals", path: "/basic-tables", pro: false },
-  //     { name: "Users", path: "/basic-tables", pro: false },
-  //   ],
-  // },
-  // {
-  //   name: "Digital Receipts",
-  //   icon: <TableIcon />,
-  //   subItems: [
-  //     { name: "Transactions", path: "/basic-tables", pro: false },
-  //     { name: "Reconciliations", path: "/basic-tables", pro: false },
-  //     { name: "Receipts", path: "/basic-tables", pro: false },
-  //   ],
-  // },
+  }
 ];
 
 const AppSidebar: React.FC = () => {
