@@ -41,7 +41,6 @@ const RoutesComponent = () => {
           {/* <Route path="/signup" element={<SignUp />} /> */}
           <Route path="/forgot-password" element={<ForgotPassword />} />
           <Route path="/reset-password" element={<ForgotPassword />} />
-          <Route path="*" element={<Navigate to="/signin" />} />
         </>
       )}
       {/* Dashboard Layout */}
