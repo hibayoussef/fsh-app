@@ -33,10 +33,21 @@ const RoutesComponent = () => {
   const { isAuthenticated } = useAuthStore();
   return (
     <Routes>
+      <Route path="/" element={<Navigate to="/signin" replace />} />
+       {/* Auth Layout */}
+       {!isAuthenticated && (
+        <>
+          <Route path="/signin" element={<SignIn />} />
+          {/* <Route path="/signup" element={<SignUp />} /> */}
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ForgotPassword />} />
+          <Route path="*" element={<Navigate to="/signin" />} />
+        </>
+      )}
       {/* Dashboard Layout */}
       {isAuthenticated && (
         <Route element={<AppLayout />}>
-          <Route index path="/" element={<Home />} />
+          <Route path="/" element={<Home />} />
           <Route path="/partners" element={<Partners />} />
           <Route path="/partners/:id" element={<UsersPartners />} />
           <Route path="/merchants" element={<Merchants />} />
@@ -64,16 +75,7 @@ const RoutesComponent = () => {
         </Route>
       )}
 
-      {/* Auth Layout */}
-      {!isAuthenticated && (
-        <>
-          <Route path="/signin" element={<SignIn />} />
-          {/* <Route path="/signup" element={<SignUp />} /> */}
-          <Route path="/forgot-password" element={<ForgotPassword />} />
-          <Route path="/reset-password" element={<ForgotPassword />} />
-          <Route path="*" element={<Navigate to="/signin" />} />
-        </>
-      )}
+     
 
       {/* Fallback Route */}
       {/* <Route path="*" element={<NotFound />} /> */}
