@@ -47,7 +47,7 @@ const RoutesComponent = () => {
       {/* Dashboard Layout */}
       {isAuthenticated && (
         <Route element={<AppLayout />}>
-          <Route path="/" element={<Home />} />
+          <Route path="/home" element={<Home />} />
           <Route path="/partners" element={<Partners />} />
           <Route path="/partners/:id" element={<UsersPartners />} />
           <Route path="/merchants" element={<Merchants />} />

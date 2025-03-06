@@ -30,7 +30,7 @@ export const useLogin = () => {
     },
     onSuccess: (response: AxiosResponse<ILoginDTO>) => {
       login(response.data, response.headers.token);
-      navigate("/");
+      navigate("/home");
     },
     onError: (error) => {
       console.error("Error logging in:", error);
