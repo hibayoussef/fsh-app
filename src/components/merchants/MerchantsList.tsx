@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useFetchOrganizationsByType } from "../../hooks/useOrganization";
 import { OrganizationModel } from "../../types/organization";
 import ComponentCard from "../common/ComponentCard";
@@ -16,7 +16,7 @@ import FileInput from "../form/input/FileInput";
 const MerchantsList = () => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const { data, isLoading } = useFetchOrganizationsByType("PARTNER");
+  const { data, isLoading } = useFetchOrganizationsByType("MERCHANT");
 
   const COLUMNS: Column<OrganizationModel>[] = [
     {
@@ -25,12 +25,12 @@ const MerchantsList = () => {
     },
     {
       header: "Users",
-      render: (row) => <Link to={`/partners/${row.id}`}>View Users</Link>,
+      render: (row) => <Link to={`/merchants/${row.id}`}>View Users</Link>,
     },
     {
       header: "View As Chart",
       render: () => (
-        <div className="flex justify-center items-center w-full text-center">
+        <div className="flex justify-center items-center ml-4 text-left">
           <Link to="#">
             <AltChartIcon />
           </Link>
@@ -38,14 +38,14 @@ const MerchantsList = () => {
       ),
     },
 
-    {
-      key: "created_at",
-      header: "Created at",
-    },
-    {
-      key: "updated_at",
-      header: "Updated at",
-    },
+    // {
+    //   key: "created_at",
+    //   header: "Created at",
+    // },
+    // {
+    //   key: "updated_at",
+    //   header: "Updated at",
+    // },
     {
       header: "Activate",
       render: () => <Switch label="Activate" />,
@@ -73,6 +73,8 @@ const MerchantsList = () => {
     setIsOpen(false);
   }
 
+  const navigate = useNavigate(); 
+  
   if (isLoading) return <>Loading...</>;
 
   return (
@@ -122,7 +124,7 @@ const MerchantsList = () => {
       <h2 className="text-label font-semibold " onClick={handleOpen}>
         Merchants in our system
       </h2>
-      <ComponentCard title="Basic Table 1">
+      <ComponentCard title="Merchants" onCreate={() => navigate("")}>
         {data && <DataTable data={data} columns={COLUMNS} />}
       </ComponentCard>
     </div>

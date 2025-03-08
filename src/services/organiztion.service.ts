@@ -4,7 +4,7 @@ import { OrganizationModel, OrganizationUser } from "../types/organization";
 export const _OrganizationApi = {
   getOrganizationsByType: async (type: string) => {
     const response = await _axios.get<OrganizationModel[]>(
-      `/organizations/types/${type}`
+      `/organizations/types/${type}/pages`
     );
     return response.data;
   },

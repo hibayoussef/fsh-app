@@ -29,7 +29,7 @@ export default function DataTable<T>({ columns, data }: DataTableProps<T>) {
                 <TableCell
                   key={col.key as string}
                   isHeader
-                  className="px-5 py-3 text-label font-semibold text-gray-500 text-start text-[14px] dark:text-gray-400"
+                  className="px-4 py-3 text-gray-500 text-left text-theme-sm dark:text-gray-400 min-w-[150px]"
                 >
                   {col.header}
                 </TableCell>
@@ -44,7 +44,7 @@ export default function DataTable<T>({ columns, data }: DataTableProps<T>) {
                 {columns.map((col) => (
                   <TableCell
                     key={col.key as string}
-                    className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400"
+                    className="px-4 py-3 text-gray-500 text-left text-theme-sm dark:text-gray-400"
                   >
                     {col.render
                       ? col.render(row)

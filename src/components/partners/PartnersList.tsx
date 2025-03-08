@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useFetchOrganizationsByType } from "../../hooks/useOrganization";
 import { OrganizationModel } from "../../types/organization";
 import ComponentCard from "../common/ComponentCard";
@@ -18,6 +18,8 @@ const PartnersList = () => {
 
   const { data, isLoading } = useFetchOrganizationsByType("PARTNER");
 
+  const navigate = useNavigate(); 
+
   const COLUMNS: Column<OrganizationModel>[] = [
     {
       key: "name",
@@ -34,9 +36,11 @@ const PartnersList = () => {
     {
       header: "View As Chart",
       render: () => (
-        <Link to="#">
-          <AltChartIcon />
-        </Link>
+        <div className="text-center ml-8">
+          <Link to="#">
+            <AltChartIcon />
+          </Link>
+        </div>
       ),
     },
     {
@@ -65,6 +69,7 @@ const PartnersList = () => {
   function handleClose() {
     setIsOpen(false);
   }
+
 
   if (isLoading) return <>Loading...</>;
 
@@ -115,7 +120,7 @@ const PartnersList = () => {
       <h2 className="text-label font-semibold " onClick={handleOpen}>
         Partners in our system
       </h2>
-      <ComponentCard title="Basic Table 1">
+      <ComponentCard title="Partners" onCreate={() => navigate("")}>
         {data && <DataTable data={data} columns={COLUMNS} />}
       </ComponentCard>
     </div>

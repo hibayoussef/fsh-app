@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useFetchOrganizationsByType } from "../../hooks/useOrganization";
 import { OrganizationModel } from "../../types/organization";
 import ComponentCard from "../common/ComponentCard";
@@ -16,7 +16,7 @@ import FileInput from "../form/input/FileInput";
 const BranchesList = () => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const { data, isLoading } = useFetchOrganizationsByType("PARTNER");
+  const { data, isLoading } = useFetchOrganizationsByType("BRANCH");
 
   const COLUMNS: Column<OrganizationModel>[] = [
     {
@@ -25,7 +25,7 @@ const BranchesList = () => {
     },
     {
       header: "Users",
-      render: (row) => <Link to={`/partners/${row.id}`}>View Users</Link>,
+      render: (row) => <Link to={`/branches/${row.id}`}>View Users</Link>,
     },
     {
       header: "View As Chart",
@@ -36,15 +36,6 @@ const BranchesList = () => {
           </Link>
         </div>
       ),
-    },
-
-    {
-      key: "created_at",
-      header: "Created at",
-    },
-    {
-      key: "updated_at",
-      header: "Updated at",
     },
     {
       header: "Activate",
@@ -71,6 +62,8 @@ const BranchesList = () => {
   function handleClose() {
     setIsOpen(false);
   }
+
+  const navigate = useNavigate();
 
   if (isLoading) return <>Loading...</>;
 
@@ -121,7 +114,7 @@ const BranchesList = () => {
       <h2 className="text-label font-semibold " onClick={handleOpen}>
         Branches in our system
       </h2>
-      <ComponentCard title="Basic Table 1">
+      <ComponentCard title="Branches" onCreate={() => navigate("")}>
         {data && <DataTable data={data} columns={COLUMNS} />}
       </ComponentCard>
     </div>
