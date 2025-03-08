@@ -1,20 +1,24 @@
-import { useRef } from "react";
 import { Tree, TreeNode } from "react-organizational-chart";
+import Button from "../../components/ui/button/Button";
+import { PencilIcon, TrashBinIcon } from "../../icons";
 
-const chartData = {
-  id: "1",
-  name: "Apex Financial Group",
-  children: [
-    {
-      id: "2",
-      name: "Merchant 1",
-      children: [
-        { id: "4", name: "Branch 1" },
-        { id: "5", name: "Branch 2" },
-      ],
-    },
-    { id: "3", name: "Merchant 2" },
-  ],
+const Node = ({ text }: { text: string }) => {
+  return (
+    <div className="shadow-lg rounded-[4px] overflow-hidden max-w-[240px] mx-auto">
+      <div className="bg-[#172759] h-[5px] w-full relative"></div>
+      <div className="p-2 text-center mt-7">
+        <h2>{text}</h2>
+        <div className="mt-5 flex gap-1 justify-end">
+          <Button size="icon">
+            <PencilIcon />
+          </Button>
+          <Button size="icon">
+            <TrashBinIcon />
+          </Button>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 const PartnersAsChart = () => {
@@ -26,21 +30,14 @@ const PartnersAsChart = () => {
           lineWidth={"1px"}
           lineColor={"#64748B"}
           lineBorderRadius={"10px"}
-          label={<h2>Root</h2>}
+          label={<Node text="Apex Financial Group" />}
         >
-          <TreeNode label={<h2>Child 1</h2>}>
-            <TreeNode label={<h2>Grand Child</h2>} />
+          <TreeNode label={<Node text="[Merchant name]" />}></TreeNode>
+          <TreeNode label={<Node text="[Merchant name]" />}>
+            <TreeNode label={<Node text="[Branch name]" />}></TreeNode>
+            <TreeNode label={<Node text="[Branch name]" />}></TreeNode>
           </TreeNode>
-          <TreeNode label={<h2>Child 2</h2>}>
-            <TreeNode label={<h2>Grand Child</h2>}>
-              <TreeNode label={<h2>Great Grand Child 1</h2>} />
-              <TreeNode label={<h2>Great Grand Child 2</h2>} />
-            </TreeNode>
-          </TreeNode>
-          <TreeNode label={<h2>Child 3</h2>}>
-            <TreeNode label={<h2>Grand Child 1</h2>} />
-            <TreeNode label={<h2>Grand Child 2</h2>} />
-          </TreeNode>
+          <TreeNode label={<Node text="[Merchant name]" />}></TreeNode>
         </Tree>
       </div>
     </div>
