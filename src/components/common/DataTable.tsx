@@ -14,10 +14,15 @@ export interface Column<T> {
 
 interface DataTableProps<T> {
   columns: Column<T>[];
-  data: T[];
+  data: T[] | undefined;
+  isLoading?: boolean;
 }
 
-export default function DataTable<T>({ columns, data }: DataTableProps<T>) {
+export default function DataTable<T>({
+  columns,
+  data,
+  isLoading = false,
+}: DataTableProps<T>) {
   return (
     <div className="overflow-hidden bg-white">
       <div className="max-w-full overflow-x-auto">
@@ -39,20 +44,30 @@ export default function DataTable<T>({ columns, data }: DataTableProps<T>) {
 
           {/* Table Body */}
           <TableBody className="divide-y divide-[#64748b57] dark:divide-white/[0.05]">
-            {data.map((row, rowIndex) => (
-              <TableRow key={rowIndex}>
-                {columns.map((col) => (
-                  <TableCell
-                    key={col.key as string}
-                    className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400"
-                  >
-                    {col.render
-                      ? col.render(row)
-                      : (row[col.key!] as React.ReactNode)}
-                  </TableCell>
+            {isLoading
+              ? Array.from({ length: 5 }).map((_, index) => (
+                  <TableRow key={index}>
+                    {columns.map((_, colIndex) => (
+                      <TableCell key={colIndex} className="px-4 py-3">
+                        <div className="h-4 bg-gray-300 rounded animate-pulse dark:bg-gray-700 w-3/4"></div>
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                ))
+              : data?.map((row, rowIndex) => (
+                  <TableRow key={rowIndex}>
+                    {columns.map((col) => (
+                      <TableCell
+                        key={col.key as string}
+                        className="px-4 py-3 text-gray-500 text-start text-theme-sm dark:text-gray-400"
+                      >
+                        {col.render
+                          ? col.render(row)
+                          : (row[col.key!] as React.ReactNode)}
+                      </TableCell>
+                    ))}
+                  </TableRow>
                 ))}
-              </TableRow>
-            ))}
           </TableBody>
         </Table>
       </div>

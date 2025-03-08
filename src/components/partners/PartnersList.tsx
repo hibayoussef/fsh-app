@@ -63,8 +63,6 @@ const PartnersList = () => {
     setIsOpen(false);
   }
 
-  if (isLoading) return <>Loading...</>;
-
   return (
     <>
       <PartnerForm isOpen={isOpen} handleClose={handleClose} />
@@ -80,7 +78,7 @@ const PartnersList = () => {
             </div>
           }
         >
-          {data && <DataTable data={data} columns={COLUMNS} />}
+          <DataTable data={data} columns={COLUMNS} isLoading={isLoading} />
         </ComponentCard>
       </div>
     </>
