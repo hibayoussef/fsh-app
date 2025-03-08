@@ -5,13 +5,10 @@ import ComponentCard from "../common/ComponentCard";
 import DataTable, { Column } from "../common/DataTable";
 import Switch from "../form/switch/Switch";
 import Button from "../ui/button/Button";
-import { CloseIcon, PencilIcon, TrashBinIcon } from "../../icons";
+import { PencilIcon, PlusIcon, TrashBinIcon } from "../../icons";
 import AltChartIcon from "../ui/icons/AltChartIcon";
-import { Modal } from "../ui/modal";
 import { useState } from "react";
-import Input from "../form/input/InputField";
-import Label from "../form/Label";
-import FileInput from "../form/input/FileInput";
+import PartnerForm from "./PartnerForm";
 
 const PartnersList = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -35,12 +32,10 @@ const PartnersList = () => {
     },
     {
       header: "View As Chart",
-      render: () => (
-        <div className="text-center ml-8">
-          <Link to="#">
-            <AltChartIcon />
-          </Link>
-        </div>
+      render: (row) => (
+        <Link to={`/partners/${row.id}/chart`}>
+          <AltChartIcon />
+        </Link>
       ),
     },
     {
@@ -70,60 +65,25 @@ const PartnersList = () => {
     setIsOpen(false);
   }
 
-
-  if (isLoading) return <>Loading...</>;
-
   return (
-    <div className="space-y-3">
-      <Modal
-        isOpen={isOpen}
-        onClose={handleClose}
-        className="max-w-[600px] m-4"
-        showCloseButton={false}
-      >
-        <div className="rounded-tr-[4px] rounded-tl-[4px] p-3 bg-[#EBEFF1] flex items-center justify-between">
-          <h2>Add partner</h2>
-          <button onClick={handleClose}>
-            <CloseIcon />
-          </button>
-        </div>
-        <div className="p-3 space-y-3">
-          <h2 className="text-label font-semibold text-[14px]">
-            Add a new partner
-          </h2>
-          <form className="space-y-2">
-            <div>
-              <Label>Name</Label>
-              <Input />
-            </div>
-            <div>
-              <Label>Address</Label>
-              <Input />
-            </div>
-            <div>
-              <Label>Description</Label>
-              <Input />
-            </div>
-            <div>
-              <Label>Upload Icon</Label>
-              <FileInput />
-            </div>
-            <div className="flex justify-end gap-4 ">
-              <Button type="submit" variant="outline">
-                Cancel
+    <>
+      <PartnerForm isOpen={isOpen} handleClose={handleClose} />
+      <div className="space-y-3">
+        <h2 className="text-label font-semibold">Partners in our system</h2>
+        <ComponentCard
+          title={
+            <div className="flex justify-between items-center">
+              <div>Search</div>
+              <Button onClick={handleOpen} size="sm" startIcon={<PlusIcon />}>
+                Add New
               </Button>
-              <Button type="submit">Save Changes</Button>
             </div>
-          </form>
-        </div>
-      </Modal>
-      <h2 className="text-label font-semibold " onClick={handleOpen}>
-        Partners in our system
-      </h2>
-      <ComponentCard title="Partners" onCreate={() => navigate("")}>
-        {data && <DataTable data={data} columns={COLUMNS} />}
-      </ComponentCard>
-    </div>
+          }
+        >
+          <DataTable data={data} columns={COLUMNS} isLoading={isLoading} />
+        </ComponentCard>
+      </div>
+    </>
   );
 };
 

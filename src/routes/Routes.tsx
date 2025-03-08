@@ -26,8 +26,8 @@ import Buttons from "../pages/UiElements/Buttons";
 import Images from "../pages/UiElements/Images";
 import Videos from "../pages/UiElements/Videos";
 import UserProfiles from "../pages/UserProfiles";
-import { useAuthStore } from "../store/useAuthStore";
 import Users from "../pages/Users/Users";
+import { useAuthStore } from "../store/useAuthStore";
 
 const RoutesComponent = () => {
   const { isAuthenticated } = useAuthStore();
