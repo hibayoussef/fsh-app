@@ -31,7 +31,7 @@ const PartnersList = () => {
     {
       header: "View As Chart",
       render: (row) => (
-        <Link to="#">
+        <Link to={`/partners/${row.id}/chart`}>
           <AltChartIcon />
         </Link>
       ),

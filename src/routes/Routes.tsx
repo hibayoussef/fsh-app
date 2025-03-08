@@ -1,7 +1,6 @@
 // src/routes/Routes.tsx
 import { Routes, Route, Navigate } from "react-router";
 import SignIn from "../pages/AuthPages/SignIn";
-import SignUp from "../pages/AuthPages/SignUp";
 import NotFound from "../pages/OtherPage/NotFound";
 import UserProfiles from "../pages/UserProfiles";
 import Videos from "../pages/UiElements/Videos";
@@ -22,6 +21,7 @@ import ForgotPassword from "../pages/AuthPages/ForgotPassword";
 import { useAuthStore } from "../store/useAuthStore";
 import Partners from "../pages/Partners/Partners";
 import UsersPartners from "../pages/Partners/Users";
+import PartnersAsChart from "../pages/Partners/PartnersAsChart";
 
 const RoutesComponent = () => {
   const { isAuthenticated } = useAuthStore();
@@ -33,6 +33,7 @@ const RoutesComponent = () => {
           <Route index path="/" element={<Home />} />
           <Route path="/partners" element={<Partners />} />
           <Route path="/partners/:id" element={<UsersPartners />} />
+          <Route path="/partners/:id/chart" element={<PartnersAsChart />} />
           <Route path="/profile" element={<UserProfiles />} />
           <Route path="/calendar" element={<Calendar />} />
           <Route path="/blank" element={<Blank />} />
