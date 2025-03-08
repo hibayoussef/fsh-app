@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { queryKeys } from "../utils/query-keys";
 import { _OrganizationApi } from "../services/organiztion.service";
 
@@ -14,5 +14,15 @@ export const useFetchOrganizationUsers = (id: string) => {
     queryKey: [queryKeys.ORGANIZATION_USERS, id],
     queryFn: () => _OrganizationApi.getOrganizationUsers(id),
     enabled: !!id,
+  });
+};
+
+export const useCreatePartner = () => {
+  const queryClient = useQueryClient();
+  return useMutation({
+    mutationFn: _OrganizationApi.createPartner,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [queryKeys.ORGANIZATIONS] });
+    },
   });
 };

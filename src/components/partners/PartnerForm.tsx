@@ -10,6 +10,8 @@ import FileUploader from "../form/input/FileUploader";
 import { Controller, useForm, useFieldArray } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
+import { useCreatePartner } from "../../hooks/useOrganization";
+import { PartnerRequest } from "../../types/organization";
 
 const schema = yup.object().shape({
   name: yup.string().required("Name is required"),
@@ -17,12 +19,15 @@ const schema = yup.object().shape({
   address: yup.string().optional(),
   logoBase64: yup.string().optional(),
   users: yup.array().of(
-    yup.object().shape({
-      firstName: yup.string().optional(),
-      lastName: yup.string().optional(),
-      email: yup.string().optional(),
-      phone: yup.string().optional(),
-    })
+    yup
+      .object()
+      .shape({
+        firstName: yup.string().optional(),
+        lastName: yup.string().optional(),
+        email: yup.string().optional(),
+        phoneNumber: yup.string().optional(),
+      })
+      .optional()
   ),
   enabled: yup.boolean().optional(),
 });
@@ -40,14 +45,15 @@ const PartnerForm = ({
     control,
     formState: { errors },
     setValue,
+    reset,
   } = useForm({
-    resolver: yupResolver(schema), // Apply the validation schema
+    resolver: yupResolver(schema),
     defaultValues: {
       name: "",
-      address: "",
+      // address: "",
       description: "",
       logoBase64: "",
-      users: [{ firstName: "", lastName: "", email: "", phone: "" }],
+      users: [{ firstName: "", lastName: "", email: "", phoneNumber: "" }],
       enabled: false,
     },
   });
@@ -57,14 +63,37 @@ const PartnerForm = ({
     name: "users",
   });
 
-  const onSubmit = (values) => {
+  const { mutateAsync: addMutation, isPending: adding } = useCreatePartner();
+
+  const onSubmit = (values: yup.InferType<typeof schema>) => {
     console.log(values);
+    const payload: PartnerRequest = {
+      organization: {
+        name: values.name,
+        description: values.description,
+        enabled: values.enabled,
+        logoBase64: values.logoBase64,
+        type: {
+          name: "PARTNER",
+        },
+        // ...values,
+      },
+      users: values?.users?.map((user) => ({
+        firstName: user?.firstName,
+        lastName: user?.lastName,
+        email: user?.email,
+      })),
+    };
+    addMutation(payload);
   };
 
   return (
     <Modal
       isOpen={isOpen}
-      onClose={handleClose}
+      onClose={() => {
+        handleClose();
+        reset();
+      }}
       className="max-w-[600px] m-4"
       showCloseButton={false}
     >
@@ -147,7 +176,7 @@ const PartnerForm = ({
                     <div>
                       <Label>Phone Number</Label>
                       <Input
-                        {...register(`users.${index}.phone`)}
+                        {...register(`users.${index}.phoneNumber`)}
                         placeholder="Phone Number"
                       />
                     </div>
@@ -172,7 +201,7 @@ const PartnerForm = ({
                         firstName: "",
                         lastName: "",
                         email: "",
-                        phone: "",
+                        // phoneNumber: "",
                       })
                     }
                     size="sm"
@@ -196,7 +225,9 @@ const PartnerForm = ({
             <Button variant="outline" onClick={handleClose}>
               Cancel
             </Button>
-            <Button type="submit">Save Partner</Button>
+            <Button type="submit" disabled={adding}>
+              {adding ? "Adding..." : "Save Partner"}
+            </Button>
           </div>
         </Form>
       </div>
