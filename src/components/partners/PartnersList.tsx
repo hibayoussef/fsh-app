@@ -10,6 +10,7 @@ import AltChartIcon from "../ui/icons/AltChartIcon";
 import { useState } from "react";
 import PartnerForm from "./PartnerForm";
 import ConfirmDelete from "../common/ConfirmDelete";
+import FilterModal from "./FilterModal";
 
 const PartnersList = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -85,7 +86,9 @@ const PartnersList = () => {
         <ComponentCard
           title={
             <div className="flex justify-between items-center">
-              <div>Search</div>
+              <div>
+                <FilterModal />
+              </div>
               <div className="flex gap-3">
                 {selectedRows.size > 0 && (
                   <Button

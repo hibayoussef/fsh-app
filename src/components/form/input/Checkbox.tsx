@@ -2,10 +2,10 @@ import clsx from "clsx"; // Install with: npm install clsx
 
 interface CheckboxProps {
   label?: string;
-  checked: boolean;
+  checked?: boolean;
   className?: string;
   id?: string;
-  onChange: (checked: boolean) => void;
+  onChange?: (checked: boolean) => void;
   disabled?: boolean;
 }
 
@@ -34,7 +34,7 @@ const Checkbox: React.FC<CheckboxProps> = ({
           className
         )}
         checked={checked}
-        onChange={(e) => onChange(e.target.checked)}
+        onChange={(e) => onChange && onChange(e.target.checked)}
         disabled={disabled}
       />
       {label && <span className="text-sm font-medium">{label}</span>}
