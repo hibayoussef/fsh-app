@@ -9,9 +9,11 @@ import { PencilIcon, PlusIcon, TrashBinIcon } from "../../icons";
 import AltChartIcon from "../ui/icons/AltChartIcon";
 import { useState } from "react";
 import PartnerForm from "./PartnerForm";
+import ConfirmDelete from "../common/ConfirmDelete";
 
 const PartnersList = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const [isDeleteOpen, setIsDeleteOpen] = useState(false);
 
   const { data, isLoading } = useFetchOrganizationsByType("PARTNER");
 
@@ -70,6 +72,10 @@ const PartnersList = () => {
   return (
     <>
       <PartnerForm isOpen={isOpen} handleClose={handleClose} />
+      <ConfirmDelete
+        isOpen={isDeleteOpen}
+        handleClose={() => setIsDeleteOpen(false)}
+      />
       <div className="space-y-3">
         <h2 className="text-label font-semibold">Partners in our system</h2>
         <ComponentCard
@@ -78,7 +84,11 @@ const PartnersList = () => {
               <div>Search</div>
               <div className="flex gap-3">
                 {selectedRows.size > 0 && (
-                  <Button size="sm" variant="error">
+                  <Button
+                    size="sm"
+                    variant="error"
+                    onClick={() => setIsDeleteOpen(true)}
+                  >
                     Delete Selected
                   </Button>
                 )}
