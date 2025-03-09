@@ -11,7 +11,7 @@ export default function FilterModal() {
 
   return (
     <div className="relative">
-      <div className="relative overflow-hidden rounded-lg">
+      <div className="relative overflow-hidden rounded-[4px]">
         <Input className="!h-9" placeholder="Search here..." />
         <button
           onClick={() => setIsOpen(!isOpen)}
@@ -22,7 +22,7 @@ export default function FilterModal() {
       </div>
 
       {isOpen && (
-        <div className="absolute top-9 left-0 w-96 bg-white shadow-lg rounded-xl p-6 border border-gray-200">
+        <div className="absolute top-9 left-0 w-96 bg-white shadow-lg rounded-[4px] p-6 border border-gray-200">
           <h2 className="text-lg font-semibold mb-4">Filter partners</h2>
 
           <div className="space-y-4">
