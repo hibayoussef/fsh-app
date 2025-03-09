@@ -53,7 +53,11 @@ const PartnersList = () => {
           <Button size="icon">
             <PencilIcon />
           </Button>
-          <Button size="icon" variant="error">
+          <Button
+            size="icon"
+            variant="error"
+            onClick={() => setIsDeleteOpen(true)}
+          >
             <TrashBinIcon />
           </Button>
         </div>
