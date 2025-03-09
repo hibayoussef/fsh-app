@@ -15,7 +15,9 @@ const PartnersList = () => {
 
   const { data, isLoading } = useFetchOrganizationsByType("PARTNER");
 
-  const navigate = useNavigate(); 
+  const [selectedRows, setSelectedRows] = useState<Set<number>>(new Set());
+
+  const navigate = useNavigate();
 
   const COLUMNS: Column<OrganizationModel>[] = [
     {
@@ -49,7 +51,7 @@ const PartnersList = () => {
           <Button size="icon">
             <PencilIcon />
           </Button>
-          <Button size="icon">
+          <Button size="icon" variant="error">
             <TrashBinIcon />
           </Button>
         </div>
@@ -74,13 +76,26 @@ const PartnersList = () => {
           title={
             <div className="flex justify-between items-center">
               <div>Search</div>
-              <Button onClick={handleOpen} size="sm" startIcon={<PlusIcon />}>
-                Add New
-              </Button>
+              <div className="flex gap-3">
+                {selectedRows.size > 0 && (
+                  <Button size="sm" variant="error">
+                    Delete Selected
+                  </Button>
+                )}
+                <Button onClick={handleOpen} size="sm" startIcon={<PlusIcon />}>
+                  Add New
+                </Button>
+              </div>
             </div>
           }
         >
-          <DataTable data={data} columns={COLUMNS} isLoading={isLoading} />
+          <DataTable
+            data={data}
+            columns={COLUMNS}
+            isLoading={isLoading}
+            selectedRows={selectedRows}
+            onSelectionChange={setSelectedRows}
+          />
         </ComponentCard>
       </div>
     </>

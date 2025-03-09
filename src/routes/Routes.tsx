@@ -28,14 +28,15 @@ import Videos from "../pages/UiElements/Videos";
 import UserProfiles from "../pages/UserProfiles";
 import Users from "../pages/Users/Users";
 import { useAuthStore } from "../store/useAuthStore";
+import PartnersAsChart from "../pages/Partners/PartnersAsChart";
 
 const RoutesComponent = () => {
   const { isAuthenticated } = useAuthStore();
   return (
     <Routes>
       <Route path="/" element={<Navigate to="/signin" replace />} />
-       {/* Auth Layout */}
-       {!isAuthenticated && (
+      {/* Auth Layout */}
+      {!isAuthenticated && (
         <>
           <Route path="/signin" element={<SignIn />} />
           {/* <Route path="/signup" element={<SignUp />} /> */}
@@ -49,6 +50,7 @@ const RoutesComponent = () => {
           <Route path="/home" element={<Home />} />
           <Route path="/partners" element={<Partners />} />
           <Route path="/partners/:id" element={<UsersPartners />} />
+          <Route path="/partners/:id/chart" element={<PartnersAsChart />} />
           <Route path="/merchants" element={<Merchants />} />
           <Route path="/merchants/:id" element={<UsersMarchants />} />
           <Route path="/branches" element={<Branches />} />
@@ -73,8 +75,6 @@ const RoutesComponent = () => {
           <Route path="*" element={<NotFound />} />
         </Route>
       )}
-
-     
 
       {/* Fallback Route */}
       {/* <Route path="*" element={<NotFound />} /> */}

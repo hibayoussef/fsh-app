@@ -37,13 +37,11 @@ const UsersPartners = () => {
     },
   ];
 
-  if (isLoading) return <>Loading...</>;
-
   return (
     <div className="space-y-3">
       <h2>[Partner Name]/Users</h2>
       <ComponentCard title="">
-        {data && <DataTable data={data} columns={COLUMNS} />}
+        <DataTable data={data} columns={COLUMNS} isLoading={isLoading} />
       </ComponentCard>
     </div>
   );
