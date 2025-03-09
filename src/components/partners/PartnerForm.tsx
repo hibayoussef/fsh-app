@@ -66,25 +66,24 @@ const PartnerForm = ({
   const { mutateAsync: addMutation, isPending: adding } = useCreatePartner();
 
   const onSubmit = (values: yup.InferType<typeof schema>) => {
-    const payload: PartnerRequest[] = [
-      {
-        organization: {
-          name: values.name,
-          description: values.description,
-          enabled: values.enabled,
-          logoBase64: values.logoBase64,
-          type: {
-            name: "PARTNER",
-          },
-          // ...values,
+    const payload: PartnerRequest = {
+      organization: {
+        name: values.name,
+        description: values.description,
+        enabled: values.enabled,
+        logoBase64: values.logoBase64,
+        type: {
+          name: "PARTNER",
         },
-        users: values?.users?.map((user) => ({
-          firstName: user?.firstName,
-          lastName: user?.lastName,
-          email: user?.email,
-        })),
+        // ...values,
       },
-    ];
+      users: values?.users?.map((user) => ({
+        firstName: user?.firstName,
+        lastName: user?.lastName,
+        email: user?.email,
+      })),
+    };
+
     addMutation(payload);
   };
 

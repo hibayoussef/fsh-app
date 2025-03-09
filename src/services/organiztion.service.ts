@@ -18,7 +18,7 @@ export const _OrganizationApi = {
     );
     return response.data;
   },
-  createPartner: async (data: PartnerRequest[]) => {
+  createPartner: async (data: PartnerRequest) => {
     const response = await _axios.post("/organizations/partners", data);
     return response.data;
   },
