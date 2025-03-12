@@ -71,7 +71,7 @@ const PartnerForm = ({
         name: values.name,
         description: values.description,
         enabled: values.enabled,
-        logoBase64: values.logoBase64,
+        // logoBase64: values.logoBase64,
         type: {
           name: "PARTNER",
         },
@@ -84,7 +84,9 @@ const PartnerForm = ({
       })),
     };
 
-    addMutation(payload);
+    addMutation(payload).then(() => {
+      handleClose();
+    });
   };
 
   return (
