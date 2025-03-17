@@ -1,16 +1,16 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useState } from "react";
+import { Link } from "react-router-dom";
 import { useFetchOrganizationsByType } from "../../hooks/useOrganization";
+import { PencilIcon, PlusIcon, TrashBinIcon } from "../../icons";
 import { OrganizationModel } from "../../types/organization";
 import ComponentCard from "../common/ComponentCard";
+import ConfirmDelete from "../common/ConfirmDelete";
 import DataTable, { Column } from "../common/DataTable";
 import Switch from "../form/switch/Switch";
 import Button from "../ui/button/Button";
-import { PencilIcon, PlusIcon, TrashBinIcon } from "../../icons";
 import AltChartIcon from "../ui/icons/AltChartIcon";
-import { useState } from "react";
-import PartnerForm from "./PartnerForm";
-import ConfirmDelete from "../common/ConfirmDelete";
 import FilterModal from "./FilterModal";
+import PartnerForm from "./PartnerForm";
 
 const PartnersList = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -19,8 +19,6 @@ const PartnersList = () => {
   const { data, isLoading } = useFetchOrganizationsByType("PARTNER");
 
   const [selectedRows, setSelectedRows] = useState<Set<number>>(new Set());
-
-  const navigate = useNavigate();
 
   const COLUMNS: Column<OrganizationModel>[] = [
     {

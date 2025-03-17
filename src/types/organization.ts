@@ -38,7 +38,7 @@ export interface PartnerRequest {
     logoBase64?: string;
     users?: UserModel[];
     type?: {
-      name?: "PARTNER";
+      name?: "PARTNER" | "MERCHANT";
     };
     enabled?: boolean;
   };
