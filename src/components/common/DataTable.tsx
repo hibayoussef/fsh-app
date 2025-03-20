@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { useEffect } from "react";
+import Checkbox from "../form/input/Checkbox";
 import {
   Table,
   TableBody,
@@ -6,7 +7,6 @@ import {
   TableHeader,
   TableRow,
 } from "../ui/table";
-import Checkbox from "../form/input/Checkbox";
 
 export interface Column<T> {
   key?: keyof T;
@@ -100,7 +100,7 @@ export default function DataTable<T>({
                     ))}
                   </TableRow>
                 ))
-              : data?.map((row, rowIndex) => (
+              : data?.map((row, rowIndex: any) => (
                   <TableRow key={rowIndex}>
                     <TableCell className="px-4 py-3">
                       <Checkbox

@@ -80,7 +80,7 @@ const BranchesList = () => {
         handleClose={() => setIsDeleteOpen(false)}
       />
       <div className="space-y-3">
-        <h2 className="text-label font-semibold">Merchants in our system</h2>
+        <h2 className="text-label font-semibold">Branches in our system</h2>
         <ComponentCard
           title={
             <div className="flex justify-between items-center">

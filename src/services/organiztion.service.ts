@@ -22,4 +22,8 @@ export const _OrganizationApi = {
     const response = await _axios.post("/organizations/partners", data);
     return response.data;
   },
+  updatePartner: async (id: number, name: string, description: string) => {
+    const response = await _axios.patch(`/organizations/${id}`, {id, name, description});
+    return response.data;
+  },
 };

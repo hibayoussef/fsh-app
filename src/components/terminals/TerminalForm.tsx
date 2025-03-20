@@ -10,9 +10,8 @@ import FileUploader from "../form/input/FileUploader";
 import { Controller, useForm, useFieldArray } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { useCreatePartner, useUpdatePartner } from "../../hooks/useOrganization";
+import { useCreatePartner } from "../../hooks/useOrganization";
 import { PartnerRequest } from "../../types/organization";
-import { useEffect } from "react";
 
 const schema = yup.object().shape({
   name: yup.string().required("Name is required"),
@@ -33,14 +32,12 @@ const schema = yup.object().shape({
   enabled: yup.boolean().optional(),
 });
 
-const PartnerForm = ({
+const TerminalForm = ({
   isOpen,
   handleClose,
-  initialData,
 }: {
   isOpen: boolean;
   handleClose: () => void;
-  initialData?: any;
 }) => {
   const {
     register,
@@ -53,19 +50,13 @@ const PartnerForm = ({
     resolver: yupResolver(schema),
     defaultValues: {
       name: "",
+      // address: "",
       description: "",
-      address: "",
       logoBase64: "",
       users: [{ firstName: "", lastName: "", email: "", phoneNumber: "" }],
       enabled: false,
     },
   });
-
-  useEffect(() => {
-    if (initialData) {
-      reset(initialData);
-    }
-  }, [initialData, reset]);
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -73,17 +64,18 @@ const PartnerForm = ({
   });
 
   const { mutateAsync: addMutation, isPending: adding } = useCreatePartner();
-  const { mutateAsync: updateMutation, isPending: updating } = useUpdatePartner();
 
-  const onSubmit = async (values: yup.InferType<typeof schema>) => {
+  const onSubmit = (values: yup.InferType<typeof schema>) => {
     const payload: PartnerRequest = {
       organization: {
         name: values.name,
         description: values.description,
         enabled: values.enabled,
+        // logoBase64: values.logoBase64,
         type: {
-          name: "PARTNER",
+          name: "MERCHANT",
         },
+        // ...values,
       },
       users: values?.users?.map((user) => ({
         firstName: user?.firstName,
@@ -92,13 +84,9 @@ const PartnerForm = ({
       })),
     };
 
-    if (initialData) {
-      await updateMutation({ id: initialData.id,  name: values.name, description: values.description, });
-    } else {
-      await addMutation(payload);
-    }
-
-    handleClose();
+    addMutation(payload).then(() => {
+      handleClose();
+    });
   };
 
   return (
@@ -112,18 +100,26 @@ const PartnerForm = ({
       showCloseButton={false}
     >
       <div className="rounded-tr-[4px] rounded-tl-[4px] p-3 bg-[#EBEFF1] flex items-center justify-between">
-        <h2>{initialData ? "Edit Partner" : "Add Partner"}</h2>
-        <button onClick={handleClose} className="transition duration-300 hover:text-gray-500">
+        <h2 className="font-semibold text-lg">Add merchant</h2>
+        <button
+          onClick={handleClose}
+          className="transition duration-300 hover:text-gray-500"
+        >
           <CloseIcon />
         </button>
       </div>
       <div className="p-3 space-y-3">
+        <h2 className="text-label font-semibold text-[14px]">
+          Add a new merchant
+        </h2>
         <Form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
           <div className="space-y-2">
             <div>
               <Label>Name</Label>
               <Input {...register("name")} />
-              {errors.name && <p className="text-red-500 text-sm">{errors.name.message}</p>}
+              {errors.name && (
+                <p className="text-red-500 text-sm">{errors.name.message}</p>
+              )}
             </div>
             <div>
               <Label>Address</Label>
@@ -132,14 +128,24 @@ const PartnerForm = ({
             <div>
               <Label>Description</Label>
               <Input {...register("description")} />
-              {errors.description && <p className="text-red-500 text-sm">{errors.description.message}</p>}
+              {errors.description && (
+                <p className="text-red-500 text-sm">
+                  {errors.description.message}
+                </p>
+              )}
             </div>
             <div>
               <Label>Upload Icon</Label>
               <Controller
                 name="logoBase64"
                 control={control}
-                render={({ field }) => <FileUploader field={field} setValue={setValue} name="logoBase64" />}
+                render={({ field }) => (
+                  <FileUploader
+                    field={field}
+                    setValue={setValue}
+                    name="logoBase64"
+                  />
+                )}
               />
             </div>
 
@@ -150,23 +156,39 @@ const PartnerForm = ({
                   <div key={field.id} className="grid grid-cols-2 gap-3">
                     <div>
                       <Label>First Name</Label>
-                      <Input {...register(`users.${index}.firstName`)} placeholder="First Name" />
+                      <Input
+                        {...register(`users.${index}.firstName`)}
+                        placeholder="First Name"
+                      />
                     </div>
                     <div>
                       <Label>Last Name</Label>
-                      <Input {...register(`users.${index}.lastName`)} placeholder="Last Name" />
+                      <Input
+                        {...register(`users.${index}.lastName`)}
+                        placeholder="Last Name"
+                      />
                     </div>
                     <div>
                       <Label>Email Address</Label>
-                      <Input {...register(`users.${index}.email`)} placeholder="Email Address" />
+                      <Input
+                        {...register(`users.${index}.email`)}
+                        placeholder="Email Address"
+                      />
                     </div>
                     <div>
                       <Label>Phone Number</Label>
-                      <Input {...register(`users.${index}.phoneNumber`)} placeholder="Phone Number" />
+                      <Input
+                        {...register(`users.${index}.phoneNumber`)}
+                        placeholder="Phone Number"
+                      />
                     </div>
                     {fields.length > 1 && (
                       <div className="col-span-2 flex justify-end">
-                        <Button variant="outline" onClick={() => remove(index)} size="icon">
+                        <Button
+                          variant="outline"
+                          onClick={() => remove(index)}
+                          size="icon"
+                        >
                           <TrashBinIcon />
                         </Button>
                       </div>
@@ -176,7 +198,14 @@ const PartnerForm = ({
                 <div className="mt-2 text-center">
                   <Button
                     type="button"
-                    onClick={() => append({ firstName: "", lastName: "", email: "" })}
+                    onClick={() =>
+                      append({
+                        firstName: "",
+                        lastName: "",
+                        email: "",
+                        // phoneNumber: "",
+                      })
+                    }
                     size="sm"
                     startIcon={<PlusIcon />}
                   >
@@ -187,7 +216,10 @@ const PartnerForm = ({
             </div>
 
             <div>
-              <Switch label="Activate" onChange={(checked) => setValue("enabled", checked)} />
+              <Switch
+                label="Activate"
+                onChange={(checked) => setValue("enabled", checked)}
+              />
             </div>
           </div>
 
@@ -195,8 +227,8 @@ const PartnerForm = ({
             <Button variant="outline" onClick={handleClose}>
               Cancel
             </Button>
-            <Button type="submit" disabled={adding || updating}>
-              {initialData ? (updating ? "Updating..." : "Update") : adding ? "Adding..." : "Save"}
+            <Button type="submit" disabled={adding}>
+              {adding ? "Adding..." : "Save Merchant"}
             </Button>
           </div>
         </Form>
@@ -205,4 +237,4 @@ const PartnerForm = ({
   );
 };
 
-export default PartnerForm;
+export default TerminalForm;

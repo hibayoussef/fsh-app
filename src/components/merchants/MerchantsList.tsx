@@ -23,7 +23,7 @@ const MerchantsList = () => {
   const COLUMNS: Column<OrganizationModel>[] = [
     {
       key: "name",
-      header: "Partner Name",
+      header: "Merchant Name",
     },
     {
       key: "description",
@@ -80,7 +80,7 @@ const MerchantsList = () => {
         handleClose={() => setIsDeleteOpen(false)}
       />
       <div className="space-y-3">
-        <h2 className="text-label font-semibold">Partners in our system</h2>
+        <h2 className="text-label font-semibold">Merchants in our system</h2>
         <ComponentCard
           title={
             <div className="flex justify-between items-center">

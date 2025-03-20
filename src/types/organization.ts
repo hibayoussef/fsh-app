@@ -30,6 +30,12 @@ export interface UserModel {
   phoneNumber?: string;
 }
 
+export interface UpdatePartnerRequest {
+id: number; 
+name: string; 
+description: string; 
+}
+
 export interface PartnerRequest {
   organization: {
     name: string;

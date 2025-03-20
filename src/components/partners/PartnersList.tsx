@@ -1,84 +1,53 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { getColumns } from "../../columns/partner";
 import { useFetchOrganizationsByType } from "../../hooks/useOrganization";
-import { PencilIcon, PlusIcon, TrashBinIcon } from "../../icons";
-import { OrganizationModel } from "../../types/organization";
+import { PlusIcon } from "../../icons";
 import ComponentCard from "../common/ComponentCard";
 import ConfirmDelete from "../common/ConfirmDelete";
-import DataTable, { Column } from "../common/DataTable";
-import Switch from "../form/switch/Switch";
+import DataTable from "../common/DataTable";
 import Button from "../ui/button/Button";
-import AltChartIcon from "../ui/icons/AltChartIcon";
 import FilterModal from "./FilterModal";
 import PartnerForm from "./PartnerForm";
 
 const PartnersList = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
-
+  const [selectedId, setSelectedId] = useState<number | null>(null);
   const { data, isLoading } = useFetchOrganizationsByType("PARTNER");
-
   const [selectedRows, setSelectedRows] = useState<Set<number>>(new Set());
-
-  const COLUMNS: Column<OrganizationModel>[] = [
-    {
-      key: "name",
-      header: "Partner Name",
-    },
-    {
-      key: "description",
-      header: "Description",
-    },
-    {
-      header: "Users",
-      render: (row) => <Link to={`/partners/${row.id}`}>View Users</Link>,
-    },
-    {
-      header: "View As Chart",
-      render: (row) => (
-        <Link to={`/partners/${row.id}/chart`}>
-          <AltChartIcon />
-        </Link>
-      ),
-    },
-    {
-      header: "Activate",
-      render: () => <Switch label="Activate" />,
-    },
-    {
-      header: "Actions",
-      render: () => (
-        <div className="flex gap-3">
-          <Button size="icon">
-            <PencilIcon />
-          </Button>
-          <Button
-            size="icon"
-            variant="error"
-            onClick={() => setIsDeleteOpen(true)}
-          >
-            <TrashBinIcon />
-          </Button>
-        </div>
-      ),
-    },
-  ];
-
-  function handleOpen() {
+  const [selectedData, setSelectedData] = useState<any | null>(null); 
+  
+  const handleEdit = (id: number) => {
+  const partnerToEdit = data?.find((partner) => partner.id === id);
+  if (partnerToEdit) {
+    setSelectedData(partnerToEdit); 
+    setSelectedId(id);
     setIsOpen(true);
   }
+};
 
-  function handleClose() {
-    setIsOpen(false);
-  }
+  const handleDelete = () => setIsDeleteOpen(true);
+
+  const columns = getColumns({
+    onDelete: handleDelete,
+    onEdit: handleEdit,
+  });
 
   return (
     <>
-      <PartnerForm isOpen={isOpen} handleClose={handleClose} />
+       <PartnerForm
+      isOpen={isOpen}
+      handleClose={() => {
+        setIsOpen(false);
+        setSelectedData(null); 
+      }}
+      initialData={selectedData} 
+    />
       <ConfirmDelete
         isOpen={isDeleteOpen}
         handleClose={() => setIsDeleteOpen(false)}
       />
+
       <div className="space-y-3">
         <h2 className="text-label font-semibold">Partners in our system</h2>
         <ComponentCard
@@ -97,7 +66,11 @@ const PartnersList = () => {
                     Delete Selected
                   </Button>
                 )}
-                <Button onClick={handleOpen} size="sm" startIcon={<PlusIcon />}>
+                <Button
+                  onClick={() => setIsOpen(true)}
+                  size="sm"
+                  startIcon={<PlusIcon />}
+                >
                   Add New
                 </Button>
               </div>
@@ -106,7 +79,7 @@ const PartnersList = () => {
         >
           <DataTable
             data={data}
-            columns={COLUMNS}
+            columns={columns}
             isLoading={isLoading}
             selectedRows={selectedRows}
             onSelectionChange={setSelectedRows}
