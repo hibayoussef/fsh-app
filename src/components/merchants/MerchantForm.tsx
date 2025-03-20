@@ -10,14 +10,22 @@ import FileUploader from "../form/input/FileUploader";
 import { Controller, useForm, useFieldArray } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
 import * as yup from "yup";
-import { useCreatePartner } from "../../hooks/useOrganization";
+import {
+  useCreatePartner,
+  useFetchOrganizationsByType,
+  useUpdatePartner,
+} from "../../hooks/useOrganization";
 import { PartnerRequest } from "../../types/organization";
+import { useEffect } from "react";
+import { useOrganizationStore } from "../../store/useHirarchyStore";
+import Select from "../form/Select";
 
 const schema = yup.object().shape({
   name: yup.string().required("Name is required"),
   description: yup.string().required("Description is required"),
   address: yup.string().optional(),
   logoBase64: yup.string().optional(),
+  partnerId: yup.number().optional(),
   users: yup.array().of(
     yup
       .object()
@@ -32,12 +40,14 @@ const schema = yup.object().shape({
   enabled: yup.boolean().optional(),
 });
 
-const MerchantForm = ({
+const MerchantsForm = ({
   isOpen,
   handleClose,
+  initialData,
 }: {
   isOpen: boolean;
   handleClose: () => void;
+  initialData?: any;
 }) => {
   const {
     register,
@@ -50,13 +60,20 @@ const MerchantForm = ({
     resolver: yupResolver(schema),
     defaultValues: {
       name: "",
-      // address: "",
       description: "",
+      address: "",
+      partnerId: 0,
       logoBase64: "",
       users: [{ firstName: "", lastName: "", email: "", phoneNumber: "" }],
       enabled: false,
     },
   });
+
+  useEffect(() => {
+    if (initialData) {
+      reset(initialData);
+    }
+  }, [initialData, reset]);
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -64,18 +81,27 @@ const MerchantForm = ({
   });
 
   const { mutateAsync: addMutation, isPending: adding } = useCreatePartner();
+  const { mutateAsync: updateMutation, isPending: updating } =
+    useUpdatePartner();
+  const { organizations, setOrganizations } = useOrganizationStore();
+  const { data } = useFetchOrganizationsByType("PARTNER");
+  useEffect(() => {
+    if (data) {
+      setOrganizations(data);
+    }
+  }, [data, setOrganizations]);
 
-  const onSubmit = (values: yup.InferType<typeof schema>) => {
+
+  console.log("dataaaa:", organizations)
+  const onSubmit = async (values: yup.InferType<typeof schema>) => {
     const payload: PartnerRequest = {
       organization: {
         name: values.name,
         description: values.description,
         enabled: values.enabled,
-        // logoBase64: values.logoBase64,
         type: {
-          name: "MERCHANT",
+          name: "PARTNER",
         },
-        // ...values,
       },
       users: values?.users?.map((user) => ({
         firstName: user?.firstName,
@@ -84,9 +110,17 @@ const MerchantForm = ({
       })),
     };
 
-    addMutation(payload).then(() => {
-      handleClose();
-    });
+    if (initialData) {
+      await updateMutation({
+        id: initialData.id,
+        name: values.name,
+        description: values.description,
+      });
+    } else {
+      await addMutation(payload);
+    }
+
+    handleClose();
   };
 
   return (
@@ -100,7 +134,7 @@ const MerchantForm = ({
       showCloseButton={false}
     >
       <div className="rounded-tr-[4px] rounded-tl-[4px] p-3 bg-[#EBEFF1] flex items-center justify-between">
-        <h2 className="font-semibold text-lg">Add merchant</h2>
+        <h2>{initialData ? "Edit Merchant" : "Add Merchant"}</h2>
         <button
           onClick={handleClose}
           className="transition duration-300 hover:text-gray-500"
@@ -109,9 +143,6 @@ const MerchantForm = ({
         </button>
       </div>
       <div className="p-3 space-y-3">
-        <h2 className="text-label font-semibold text-[14px]">
-          Add a new merchant
-        </h2>
         <Form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
           <div className="space-y-2">
             <div>
@@ -133,6 +164,24 @@ const MerchantForm = ({
                   {errors.description.message}
                 </p>
               )}
+            </div>
+            <div>
+              <Label>Partner Name</Label>
+              <Controller
+                name="partnerId"
+                control={control}
+                render={({ field }) => (
+                  <Select
+                    {...field}
+                    options={organizations.map((partner) => ({
+                      value: String(partner.id),
+                      label: partner.name,
+                    }))}
+                    placeholder="Select a Partner"
+                    onChange={(value) => field.onChange(Number(value))}
+                  />
+                )}
+              />
             </div>
             <div>
               <Label>Upload Icon</Label>
@@ -199,12 +248,7 @@ const MerchantForm = ({
                   <Button
                     type="button"
                     onClick={() =>
-                      append({
-                        firstName: "",
-                        lastName: "",
-                        email: "",
-                        // phoneNumber: "",
-                      })
+                      append({ firstName: "", lastName: "", email: "" })
                     }
                     size="sm"
                     startIcon={<PlusIcon />}
@@ -227,8 +271,14 @@ const MerchantForm = ({
             <Button variant="outline" onClick={handleClose}>
               Cancel
             </Button>
-            <Button type="submit" disabled={adding}>
-              {adding ? "Adding..." : "Save Merchant"}
+            <Button type="submit" disabled={adding || updating}>
+              {initialData
+                ? updating
+                  ? "Updating..."
+                  : "Update"
+                : adding
+                ? "Adding..."
+                : "Save"}
             </Button>
           </div>
         </Form>
@@ -237,4 +287,4 @@ const MerchantForm = ({
   );
 };
 
-export default MerchantForm;
+export default MerchantsForm;

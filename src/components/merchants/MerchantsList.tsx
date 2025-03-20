@@ -1,86 +1,64 @@
-import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { getColumns } from "../../columns/partner";
 import { useFetchOrganizationsByType } from "../../hooks/useOrganization";
-import { PencilIcon, PlusIcon, TrashBinIcon } from "../../icons";
-import { OrganizationModel } from "../../types/organization";
+import { PlusIcon } from "../../icons";
+import { useOrganizationStore } from "../../store/useHirarchyStore";
 import ComponentCard from "../common/ComponentCard";
 import ConfirmDelete from "../common/ConfirmDelete";
-import DataTable, { Column } from "../common/DataTable";
-import Switch from "../form/switch/Switch";
+import DataTable from "../common/DataTable";
 import Button from "../ui/button/Button";
-import AltChartIcon from "../ui/icons/AltChartIcon";
 import FilterModal from "./FilterModal";
-import MerchantForm from "./MerchantForm";
+import MerchantsForm from "./MerchantForm";
 
 const MerchantsList = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
+  const [selectedId, setSelectedId] = useState<number | null>(null);
+  
+  const {  setOrganizations } = useOrganizationStore();
 
   const { data, isLoading } = useFetchOrganizationsByType("MERCHANT");
-
   const [selectedRows, setSelectedRows] = useState<Set<number>>(new Set());
-
-  const COLUMNS: Column<OrganizationModel>[] = [
-    {
-      key: "name",
-      header: "Merchant Name",
-    },
-    {
-      key: "description",
-      header: "Description",
-    },
-    {
-      header: "Users",
-      render: (row) => <Link to={`/merchants/${row.id}`}>View Users</Link>,
-    },
-    {
-      header: "View As Chart",
-      render: (row) => (
-        <Link to={`/merchants/${row.id}/chart`}>
-          <AltChartIcon />
-        </Link>
-      ),
-    },
-    {
-      header: "Activate",
-      render: () => <Switch label="Activate" />,
-    },
-    {
-      header: "Actions",
-      render: () => (
-        <div className="flex gap-3">
-          <Button size="icon">
-            <PencilIcon />
-          </Button>
-          <Button
-            size="icon"
-            variant="error"
-            onClick={() => setIsDeleteOpen(true)}
-          >
-            <TrashBinIcon />
-          </Button>
-        </div>
-      ),
-    },
-  ];
-
-  function handleOpen() {
+  const [selectedData, setSelectedData] = useState<any | null>(null); 
+  
+  const handleEdit = (id: number) => {
+  const partnerToEdit = data?.find((partner) => partner.id === id);
+  if (partnerToEdit) {
+    setSelectedData(partnerToEdit); 
+    setSelectedId(id);
     setIsOpen(true);
   }
+};
 
-  function handleClose() {
-    setIsOpen(false);
-  }
+  useEffect(() => {
+    if (data) {
+      setOrganizations(data);
+    }
+  }, [data, setOrganizations]);
+  const handleDelete = () => setIsDeleteOpen(true);
+
+  const columns = getColumns({
+    onDelete: handleDelete,
+    onEdit: handleEdit,
+  });
 
   return (
     <>
-      <MerchantForm isOpen={isOpen} handleClose={handleClose} />
+       <MerchantsForm
+      isOpen={isOpen}
+      handleClose={() => {
+        setIsOpen(false);
+        setSelectedData(null); 
+      }}
+      initialData={selectedData} 
+    />
       <ConfirmDelete
         isOpen={isDeleteOpen}
         handleClose={() => setIsDeleteOpen(false)}
       />
+
       <div className="space-y-3">
-        <h2 className="text-label font-semibold">Merchants in our system</h2>
+        <h2 className="text-label font-semibold">Partners in our system</h2>
         <ComponentCard
           title={
             <div className="flex justify-between items-center">
@@ -97,7 +75,11 @@ const MerchantsList = () => {
                     Delete Selected
                   </Button>
                 )}
-                <Button onClick={handleOpen} size="sm" startIcon={<PlusIcon />}>
+                <Button
+                  onClick={() => setIsOpen(true)}
+                  size="sm"
+                  startIcon={<PlusIcon />}
+                >
                   Add New
                 </Button>
               </div>
@@ -106,7 +88,7 @@ const MerchantsList = () => {
         >
           <DataTable
             data={data}
-            columns={COLUMNS}
+            columns={columns}
             isLoading={isLoading}
             selectedRows={selectedRows}
             onSelectionChange={setSelectedRows}

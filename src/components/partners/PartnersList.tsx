@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { getColumns } from "../../columns/partner";
 import { useFetchOrganizationsByType } from "../../hooks/useOrganization";
 import { PlusIcon } from "../../icons";
@@ -8,11 +8,15 @@ import DataTable from "../common/DataTable";
 import Button from "../ui/button/Button";
 import FilterModal from "./FilterModal";
 import PartnerForm from "./PartnerForm";
+import { useOrganizationStore } from "../../store/useHirarchyStore";
 
 const PartnersList = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [isDeleteOpen, setIsDeleteOpen] = useState(false);
   const [selectedId, setSelectedId] = useState<number | null>(null);
+  
+  const {  setOrganizations } = useOrganizationStore();
+
   const { data, isLoading } = useFetchOrganizationsByType("PARTNER");
   const [selectedRows, setSelectedRows] = useState<Set<number>>(new Set());
   const [selectedData, setSelectedData] = useState<any | null>(null); 
@@ -26,6 +30,11 @@ const PartnersList = () => {
   }
 };
 
+  useEffect(() => {
+    if (data) {
+      setOrganizations(data);
+    }
+  }, [data, setOrganizations]);
   const handleDelete = () => setIsDeleteOpen(true);
 
   const columns = getColumns({

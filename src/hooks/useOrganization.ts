@@ -1,6 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { _OrganizationApi } from "../services/organiztion.service";
 import { queryKeys } from "../utils/query-keys";
+import { useOrganizationStore } from "../store/useHirarchyStore";
 
 export const useFetchOrganizationsByType = (type: string) => {
   return useQuery({
@@ -18,10 +19,13 @@ export const useFetchOrganizationUsers = (id: string) => {
 };
 
 export const useCreatePartner = () => {
+  const { setOrganizations, organizations } = useOrganizationStore();
+
   const queryClient = useQueryClient();
   return useMutation({
     mutationFn: _OrganizationApi.createPartner,
-    onSuccess: () => {
+    onSuccess: (newOrg) => {
+      setOrganizations([...organizations, newOrg]);
       queryClient.invalidateQueries({ queryKey: [queryKeys.ORGANIZATIONS] });
     },
   });
@@ -29,10 +33,24 @@ export const useCreatePartner = () => {
 
 export const useUpdatePartner = () => {
   const queryClient = useQueryClient();
+  const { setOrganizations, organizations } = useOrganizationStore();
+
   return useMutation({
-    mutationFn: ({ id, name, description }: { id: number; name: string, description: string }) =>
-      _OrganizationApi.updatePartner(id, name, description),
-    onSuccess: () => {
+    mutationFn: ({
+      id,
+      name,
+      description,
+    }: {
+      id: number;
+      name: string;
+      description: string;
+    }) => _OrganizationApi.updatePartner(id, name, description),
+    onSuccess: (updatedOrg) => {
+      setOrganizations(
+        organizations.map((org) =>
+          org.id === updatedOrg.id ? updatedOrg : org
+        )
+      );
       queryClient.invalidateQueries({ queryKey: [queryKeys.ORGANIZATIONS] });
     },
   });
