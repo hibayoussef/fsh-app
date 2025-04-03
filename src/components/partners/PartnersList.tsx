@@ -7,7 +7,7 @@ import ConfirmDelete from "../common/ConfirmDelete";
 import DataTable from "../common/DataTable";
 import Button from "../ui/button/Button";
 import FilterModal from "./FilterModal";
-import PartnerForm from "./PartnerForm";
+// import PartnerForm from "./PartnerForm";
 import { useOrganizationStore } from "../../store/useHirarchyStore";
 
 const PartnersList = () => {
@@ -44,14 +44,14 @@ const PartnersList = () => {
 
   return (
     <>
-       <PartnerForm
+       {/* <PartnerForm
       isOpen={isOpen}
       handleClose={() => {
         setIsOpen(false);
         setSelectedData(null); 
       }}
       initialData={selectedData} 
-    />
+    /> */}
       <ConfirmDelete
         isOpen={isDeleteOpen}
         handleClose={() => setIsDeleteOpen(false)}
