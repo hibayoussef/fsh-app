@@ -1,24 +1,18 @@
-import { Modal } from "../ui/modal";
-import { CloseIcon, PlusIcon, TrashBinIcon } from "../../icons";
-import Label from "../form/Label";
-import Input from "../form/input/InputField";
-import Button from "../ui/button/Button";
-import Switch from "../form/switch/Switch";
-import Collapse from "../ui/collapse/Collapse";
-import Form from "../form/Form";
-import FileUploader from "../form/input/FileUploader";
-import { Controller, useForm, useFieldArray } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
-import {
-  useCreatePartner,
-  useFetchOrganizationsByType,
-  useUpdatePartner,
-} from "../../hooks/useOrganization";
-import { PartnerRequest } from "../../types/organization";
 import { useEffect } from "react";
-import { useOrganizationStore } from "../../store/useHirarchyStore";
+import { Controller, useFieldArray, useForm } from "react-hook-form";
+import * as yup from "yup";
+import { CloseIcon, PlusIcon, TrashBinIcon } from "../../icons";
+import Form from "../form/Form";
+import Label from "../form/Label";
 import Select from "../form/Select";
+import FileUploader from "../form/input/FileUploader";
+import Input from "../form/input/InputField";
+import Switch from "../form/switch/Switch";
+import Button from "../ui/button/Button";
+import Collapse from "../ui/collapse/Collapse";
+import { Modal } from "../ui/modal";
+import { useAddMerchant } from "../../hooks/useMerchants";
 
 const schema = yup.object().shape({
   name: yup.string().required("Name is required"),
@@ -44,10 +38,12 @@ const MerchantsForm = ({
   isOpen,
   handleClose,
   initialData,
+  partnerData,
 }: {
   isOpen: boolean;
   handleClose: () => void;
   initialData?: any;
+  partnerData?: any;
 }) => {
   const {
     register,
@@ -79,28 +75,17 @@ const MerchantsForm = ({
     control,
     name: "users",
   });
+  const { mutateAsync: addMutation, isPending: adding } =
+    useAddMerchant();
 
-  const { mutateAsync: addMutation, isPending: adding } = useCreatePartner();
-  const { mutateAsync: updateMutation, isPending: updating } =
-    useUpdatePartner();
-  const { organizations, setOrganizations } = useOrganizationStore();
-  const { data } = useFetchOrganizationsByType("PARTNER");
-  useEffect(() => {
-    if (data) {
-      setOrganizations(data);
-    }
-  }, [data, setOrganizations]);
-
-
-  console.log("dataaaa:", organizations)
   const onSubmit = async (values: yup.InferType<typeof schema>) => {
-    const payload: PartnerRequest = {
+    const payload: any = {
       organization: {
         name: values.name,
         description: values.description,
         enabled: values.enabled,
         type: {
-          name: "PARTNER",
+          name: "MERCHANT",
         },
       },
       users: values?.users?.map((user) => ({
@@ -108,16 +93,17 @@ const MerchantsForm = ({
         lastName: user?.lastName,
         email: user?.email,
       })),
+      // partnerId: values.partnerId,
     };
 
     if (initialData) {
-      await updateMutation({
-        id: initialData.id,
-        name: values.name,
-        description: values.description,
-      });
+      // await updateMutation({
+      //   id: initialData.id,
+      //   name: values.name,
+      //   description: values.description,
+      // });
     } else {
-      await addMutation(payload);
+       await addMutation({ partnerId: Number(values?.partnerId), data: payload });
     }
 
     handleClose();
@@ -173,7 +159,7 @@ const MerchantsForm = ({
                 render={({ field }) => (
                   <Select
                     {...field}
-                    options={organizations.map((partner) => ({
+                    options={partnerData.map((partner) => ({
                       value: String(partner.id),
                       label: partner.name,
                     }))}
@@ -271,14 +257,16 @@ const MerchantsForm = ({
             <Button variant="outline" onClick={handleClose}>
               Cancel
             </Button>
-            <Button type="submit" disabled={adding || updating}>
-              {initialData
+            <Button type="submit" disabled={adding}>
+              {/* {initialData
                 ? updating
                   ? "Updating..."
                   : "Update"
                 : adding
-                ? "Adding..."
-                : "Save"}
+                ? "Adding..." */}
+              {/* : */}
+              "Save"
+              {/* } */}
             </Button>
           </div>
         </Form>

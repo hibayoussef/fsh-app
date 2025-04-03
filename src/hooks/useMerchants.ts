@@ -30,11 +30,15 @@ export const useFetchMerchant = (id: string, options = {}) => {
 };
 
 // ADD MERCHANT
-export const useAddMerchant = (partnerId: number) => {
+export const useAddMerchant = () => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
   return useMutation({
-    mutationFn: (data: any) => _MerchantApi.createMerchant(partnerId, data),
+    mutationFn: ({ partnerId, data }: { partnerId: number; data: any }) =>
+      _MerchantApi.createMerchant(partnerId, data),
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [queryKeys.MERCHANTS] });
       navigate("/merchants");
     },
   });
