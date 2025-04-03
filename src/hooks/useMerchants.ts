@@ -47,10 +47,13 @@ export const useAddMerchant = () => {
 // UPDATE MERCHANT
 export const useUpdateMerchant = () => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: ({ id, data }: { id: string; data: any }) =>
       _MerchantApi.updateMerchant(id, data),
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [queryKeys.MERCHANTS] });
       navigate("/merchants");
     },
   });

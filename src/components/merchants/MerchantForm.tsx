@@ -12,7 +12,7 @@ import Switch from "../form/switch/Switch";
 import Button from "../ui/button/Button";
 import Collapse from "../ui/collapse/Collapse";
 import { Modal } from "../ui/modal";
-import { useAddMerchant } from "../../hooks/useMerchants";
+import { useAddMerchant, useUpdateMerchant } from "../../hooks/useMerchants";
 
 const schema = yup.object().shape({
   name: yup.string().required("Name is required"),
@@ -77,7 +77,8 @@ const MerchantsForm = ({
   });
   const { mutateAsync: addMutation, isPending: adding } =
     useAddMerchant();
-
+  const { mutateAsync: updateMutation, isPending: updating } = useUpdateMerchant();
+  
   const onSubmit = async (values: yup.InferType<typeof schema>) => {
     const payload: any = {
       organization: {
@@ -96,12 +97,16 @@ const MerchantsForm = ({
       // partnerId: values.partnerId,
     };
 
+    const data = {
+      name: values.name,
+        description: values.description,
+    }
     if (initialData) {
-      // await updateMutation({
-      //   id: initialData.id,
-      //   name: values.name,
-      //   description: values.description,
-      // });
+      await updateMutation({
+        id: initialData.id,
+        data: data
+        
+      });
     } else {
        await addMutation({ partnerId: Number(values?.partnerId), data: payload });
     }
