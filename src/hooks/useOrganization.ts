@@ -97,10 +97,10 @@ export const useCreateMerchant = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ partnerId, data }: { partnerId: number ; data: any }) =>
+    mutationFn: ({ partnerId, data }: { partnerId: number; data: any }) =>
       _OrganizationApi.createMerchant(partnerId, data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [queryKeys.ORGANIZATIONS] });
+      queryClient.invalidateQueries({ queryKey: ["organizations-merchants"] }); // إضافة هذا السطر إذا كان لديك مفتاح خاص بالمرتشانت
     },
   });
 };
@@ -113,7 +113,7 @@ export const useCreateBranch = () => {
     mutationFn: ({ merchantId, data }: { merchantId: string; data: any }) =>
       _OrganizationApi.createBranch(merchantId, data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [queryKeys.ORGANIZATIONS] });
+      queryClient.invalidateQueries({ queryKey: ["organizations-merchants"] }); 
     },
   });
 };
@@ -126,7 +126,7 @@ export const useCreateTerminal = () => {
     mutationFn: ({ branchId, data }: { branchId: string; data: any }) =>
       _OrganizationApi.createTerminal(branchId, data),
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: [queryKeys.ORGANIZATIONS] });
+     queryClient.invalidateQueries({ queryKey: ["organizations-merchants"] }); 
     },
   });
 };

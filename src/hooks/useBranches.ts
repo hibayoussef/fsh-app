@@ -30,11 +30,15 @@ export const useFetchBranch = (id: string, options = {}) => {
 };
 
 // ADD BRANCH
-export const useAddBranch = (merchantId: string) => {
+export const useAddBranch = () => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
   return useMutation({
-    mutationFn: (data: any) => _BranchApi.createBranch(merchantId, data),
+    mutationFn: ({ merchantId, data }: { merchantId: number; data: any }) =>
+      _BranchApi.createBranch(merchantId, data),
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [queryKeys.BRANCHES] });
       navigate("/branches");
     },
   });
@@ -43,10 +47,13 @@ export const useAddBranch = (merchantId: string) => {
 // UPDATE BRANCH
 export const useUpdateBranch = () => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: ({ id, data }: { id: string; data: any }) =>
       _BranchApi.updateBranch(id, data),
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [queryKeys.BRANCHES] });
       navigate("/branches");
     },
   });

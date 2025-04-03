@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { getColumns } from "../../columns/partner";
+import { useFetchMerchants } from "../../hooks/useMerchants";
+import { useFetchPartnersByType } from "../../hooks/usePartners";
 import { PlusIcon } from "../../icons";
 import { useOrganizationStore } from "../../store/useHirarchyStore";
 import ComponentCard from "../common/ComponentCard";
@@ -8,8 +10,6 @@ import DataTable from "../common/DataTable";
 import Button from "../ui/button/Button";
 import FilterModal from "./FilterModal";
 import MerchantsForm from "./MerchantForm";
-import { useFetchMerchants } from "../../hooks/useMerchants";
-import { useFetchOrganizationsByType } from "../../hooks/useOrganization";
 
 const MerchantsList = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -31,7 +31,7 @@ const MerchantsList = () => {
   };
 
 
-  const { data } = useFetchOrganizationsByType("PARTNER");
+  const { data } = useFetchPartnersByType();
 
   useEffect(() => {
     if (merchants) {

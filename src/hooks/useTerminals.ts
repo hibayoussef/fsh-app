@@ -30,11 +30,15 @@ export const useFetchTerminal = (id: string, options = {}) => {
 };
 
 // ADD TERMINAL
-export const useAddTerminal = (branchId: string) => {
+export const useAddTerminal = () => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
   return useMutation({
-    mutationFn: (data: any) => _TerminalApi.createTerminal(branchId, data),
+    mutationFn: ({ branchId, data }: { branchId: number; data: any }) =>
+      _TerminalApi.createTerminal(branchId, data),
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [queryKeys.TERMINALS] });
       navigate("/terminals");
     },
   });
@@ -43,14 +47,18 @@ export const useAddTerminal = (branchId: string) => {
 // UPDATE TERMINAL
 export const useUpdateTerminal = () => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: ({ id, data }: { id: string; data: any }) =>
       _TerminalApi.updateTerminal(id, data),
     onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: [queryKeys.TERMINALS] });
       navigate("/terminals");
     },
   });
 };
+
 
 // UPDATE TERMINAL STATUS
 export const useUpdateTerminalStatus = () => {

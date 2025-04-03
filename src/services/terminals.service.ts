@@ -18,7 +18,7 @@ export const _TerminalApi = {
   },
 
   // CREATE OPERATION
-  createTerminal: async (branchId: string, data: any) => {
+  createTerminal: async (branchId: number, data: any) => {
     const response = await _axios.post(
       `/organizations/${branchId}/terminals`,
       data

@@ -8,7 +8,7 @@ export const _BranchApi = {
   },
 
   getBranchesByType: async () => {
-    const response = await _axios.get(`/organizations/types/BRANCHES`);
+    const response = await _axios.get(`/organizations/types/BRANCH`);
     return response.data;
   },
 
@@ -18,7 +18,7 @@ export const _BranchApi = {
   },
 
   // CREATE OPERATION
-  createBranch: async (merchantId: string, data: any) => {
+  createBranch: async (merchantId: number, data: any) => {
     const response = await _axios.post(
       `/organizations/${merchantId}/branches`,
       data

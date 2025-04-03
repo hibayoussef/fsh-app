@@ -8,7 +8,7 @@ export const _MerchantApi = {
   },
 
   getMerchantsByType: async () => {
-    const response = await _axios.get(`/organizations/types/MERCHANTS`);
+    const response = await _axios.get(`/organizations/types/MERCHANT`);
     return response.data;
   },
 

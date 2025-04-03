@@ -1,23 +1,25 @@
-import { Modal } from "../ui/modal";
-import { CloseIcon, PlusIcon, TrashBinIcon } from "../../icons";
-import Label from "../form/Label";
-import Input from "../form/input/InputField";
-import Button from "../ui/button/Button";
-import Switch from "../form/switch/Switch";
-import Collapse from "../ui/collapse/Collapse";
-import Form from "../form/Form";
-import FileUploader from "../form/input/FileUploader";
-import { Controller, useForm, useFieldArray } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { useEffect } from "react";
+import { Controller, useFieldArray, useForm } from "react-hook-form";
 import * as yup from "yup";
-import { useCreatePartner } from "../../hooks/useOrganization";
-import { PartnerRequest } from "../../types/organization";
+import { useAddBranch, useUpdateBranch } from "../../hooks/useBranches";
+import { CloseIcon, PlusIcon, TrashBinIcon } from "../../icons";
+import Form from "../form/Form";
+import Label from "../form/Label";
+import Select from "../form/Select";
+import FileUploader from "../form/input/FileUploader";
+import Input from "../form/input/InputField";
+import Switch from "../form/switch/Switch";
+import Button from "../ui/button/Button";
+import Collapse from "../ui/collapse/Collapse";
+import { Modal } from "../ui/modal";
 
 const schema = yup.object().shape({
   name: yup.string().required("Name is required"),
   description: yup.string().required("Description is required"),
   address: yup.string().optional(),
   logoBase64: yup.string().optional(),
+  partnerId: yup.number().optional(),
   users: yup.array().of(
     yup
       .object()
@@ -35,9 +37,13 @@ const schema = yup.object().shape({
 const BranchForm = ({
   isOpen,
   handleClose,
+  initialData,
+  partnerData,
 }: {
   isOpen: boolean;
   handleClose: () => void;
+  initialData?: any;
+  partnerData?: any;
 }) => {
   const {
     register,
@@ -50,43 +56,64 @@ const BranchForm = ({
     resolver: yupResolver(schema),
     defaultValues: {
       name: "",
-      // address: "",
       description: "",
+      address: "",
+      partnerId: 0,
       logoBase64: "",
       users: [{ firstName: "", lastName: "", email: "", phoneNumber: "" }],
       enabled: false,
     },
   });
 
+  useEffect(() => {
+    if (initialData) {
+      reset(initialData);
+    }
+  }, [initialData, reset]);
+
   const { fields, append, remove } = useFieldArray({
     control,
     name: "users",
   });
+  const { mutateAsync: addMutation, isPending: adding } = useAddBranch();
+  const { mutateAsync: updateMutation, isPending: updating } =
+    useUpdateBranch();
 
-  const { mutateAsync: addMutation, isPending: adding } = useCreatePartner();
-
-  const onSubmit = (values: yup.InferType<typeof schema>) => {
-    const payload: PartnerRequest = {
+  const onSubmit = async (values: yup.InferType<typeof schema>) => {
+    const payload: any = {
       organization: {
         name: values.name,
         description: values.description,
         enabled: values.enabled,
-        // logoBase64: values.logoBase64,
         type: {
-          name: "MERCHANT",
+          name: "BRANCH",
         },
-        // ...values,
       },
       users: values?.users?.map((user) => ({
         firstName: user?.firstName,
         lastName: user?.lastName,
         email: user?.email,
       })),
+      // partnerId: values.partnerId,
     };
 
-    addMutation(payload).then(() => {
-      handleClose();
-    });
+    const data = {
+      name: values.name,
+      description: values.description,
+    };
+    if (initialData) {
+      await updateMutation({
+        id: initialData.id,
+        data: data,
+      });
+    } else {
+      await addMutation({
+        merchantId: Number(values?.partnerId),
+        data: payload,
+      });
+    }
+
+    handleClose();
   };
 
   return (
@@ -100,7 +127,7 @@ const BranchForm = ({
       showCloseButton={false}
     >
       <div className="rounded-tr-[4px] rounded-tl-[4px] p-3 bg-[#EBEFF1] flex items-center justify-between">
-        <h2 className="font-semibold text-lg">Add merchant</h2>
+        <h2>{initialData ? "Edit Branch" : "Add Branch"}</h2>
         <button
           onClick={handleClose}
           className="transition duration-300 hover:text-gray-500"
@@ -109,9 +136,6 @@ const BranchForm = ({
         </button>
       </div>
       <div className="p-3 space-y-3">
-        <h2 className="text-label font-semibold text-[14px]">
-          Add a new merchant
-        </h2>
         <Form onSubmit={handleSubmit(onSubmit)} className="space-y-8">
           <div className="space-y-2">
             <div>
@@ -133,6 +157,24 @@ const BranchForm = ({
                   {errors.description.message}
                 </p>
               )}
+            </div>
+            <div>
+              <Label>Partner Name</Label>
+              <Controller
+                name="partnerId"
+                control={control}
+                render={({ field }) => (
+                  <Select
+                    {...field}
+                    options={partnerData.map((partner) => ({
+                      value: String(partner.id),
+                      label: partner.name,
+                    }))}
+                    placeholder="Select a Partner"
+                    onChange={(value) => field.onChange(Number(value))}
+                  />
+                )}
+              />
             </div>
             <div>
               <Label>Upload Icon</Label>
@@ -199,12 +241,7 @@ const BranchForm = ({
                   <Button
                     type="button"
                     onClick={() =>
-                      append({
-                        firstName: "",
-                        lastName: "",
-                        email: "",
-                        // phoneNumber: "",
-                      })
+                      append({ firstName: "", lastName: "", email: "" })
                     }
                     size="sm"
                     startIcon={<PlusIcon />}
@@ -228,7 +265,13 @@ const BranchForm = ({
               Cancel
             </Button>
             <Button type="submit" disabled={adding}>
-              {adding ? "Adding..." : "Save Branch"}
+              {initialData
+                ? updating
+                  ? "Updating..."
+                  : "Update"
+                : adding
+                ? "Adding..."
+                : "Save"}
             </Button>
           </div>
         </Form>
