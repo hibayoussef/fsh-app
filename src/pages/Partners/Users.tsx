@@ -29,7 +29,7 @@ const UsersPartners = () => {
     },
     {
       header: "Actions",
-      render: (row) => (
+      render: () => (
         <Button size="icon">
           <PencilIcon />
         </Button>
