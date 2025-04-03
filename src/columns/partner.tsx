@@ -25,7 +25,7 @@ export const getColumns = ({
   },
   {
     header: "Users",
-    render: (row) => <Link to={`/partners/${row.id}`}>View Users</Link>,
+    render: (row) => <Link to={`/users/${row.id}`}>View Users</Link>,
   },
   {
     header: "View As Chart",

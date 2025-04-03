@@ -13,7 +13,7 @@ const UsersPartners = () => {
   const COLUMNS: Column<OrganizationUser>[] = [
     {
       header: "First Name",
-      render: (row) => <>{row.person.firstName}</>,
+      render: (row) => <>{row?.person?.firstName}</>,
     },
     {
       header: "Last Name",
@@ -39,7 +39,7 @@ const UsersPartners = () => {
 
   return (
     <div className="space-y-3">
-      <h2>[Partner Name]/Users</h2>
+      <h2>Users</h2>
       <ComponentCard title="">
         <DataTable data={data} columns={COLUMNS} isLoading={isLoading} />
       </ComponentCard>

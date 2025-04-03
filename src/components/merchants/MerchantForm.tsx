@@ -75,10 +75,10 @@ const MerchantsForm = ({
     control,
     name: "users",
   });
-  const { mutateAsync: addMutation, isPending: adding } =
-    useAddMerchant();
-  const { mutateAsync: updateMutation, isPending: updating } = useUpdateMerchant();
-  
+  const { mutateAsync: addMutation, isPending: adding } = useAddMerchant();
+  const { mutateAsync: updateMutation, isPending: updating } =
+    useUpdateMerchant();
+
   const onSubmit = async (values: yup.InferType<typeof schema>) => {
     const payload: any = {
       organization: {
@@ -99,16 +99,18 @@ const MerchantsForm = ({
 
     const data = {
       name: values.name,
-        description: values.description,
-    }
+      description: values.description,
+    };
     if (initialData) {
       await updateMutation({
         id: initialData.id,
-        data: data
-        
+        data: data,
       });
     } else {
-       await addMutation({ partnerId: Number(values?.partnerId), data: payload });
+      await addMutation({
+        partnerId: Number(values?.partnerId),
+        data: payload,
+      });
     }
 
     handleClose();
@@ -263,15 +265,13 @@ const MerchantsForm = ({
               Cancel
             </Button>
             <Button type="submit" disabled={adding}>
-              {/* {initialData
+              {initialData
                 ? updating
                   ? "Updating..."
                   : "Update"
                 : adding
-                ? "Adding..." */}
-              {/* : */}
-              "Save"
-              {/* } */}
+                ? "Adding..."
+                : "Save"}
             </Button>
           </div>
         </Form>

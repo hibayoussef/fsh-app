@@ -10,10 +10,12 @@ const UsersBranches = () => {
   const { id } = useParams();
   const { data, isLoading } = useFetchOrganizationUsers(id!);
 
+  
+
   const COLUMNS: Column<OrganizationUser>[] = [
     {
       header: "First Name",
-      render: (row) => <>{row.person.firstName}</>,
+      render: (row) => row?.person?.firstName,
     },
     {
       header: "Last Name",
