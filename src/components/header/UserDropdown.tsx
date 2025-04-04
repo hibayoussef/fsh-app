@@ -31,16 +31,17 @@ export default function UserDropdown() {
 
   return (
     <div className="relative">
-      <button
+      {/* <button
         onClick={toggleDropdown}
         className="flex items-center text-gray-700 dropdown-toggle dark:text-gray-400"
       >
         <span className="mr-3 overflow-hidden rounded-full h-11 w-11">
           <img
             src={
-              user?.profileImageURL
-                ? user.profileImageURL
-                : "https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg"
+              // user?.profileImageURL
+              //   ? user.profileImageURL
+              //   :
+                "./../../../public/images/auth/account.jpg"
             }
             alt="User"
           />
@@ -67,8 +68,22 @@ export default function UserDropdown() {
             strokeLinejoin="round"
           />
         </svg>
+      </button> */}
+      <button
+        onClick={toggleDropdown}
+        className="overflow-hidden rounded-[10px] h-9 w-9 border-2 border-gray-300 dark:border-gray-600"
+      >
+        <img
+          src={
+            // user?.profileImageURL
+            //   ? user.profileImageURL
+            //   :
+            "./../../../public/images/auth/account.jpg"
+          }
+          alt="User"
+          className="h-full w-full object-cover"
+        />
       </button>
-
       <Dropdown
         isOpen={isOpen}
         onClose={closeDropdown}

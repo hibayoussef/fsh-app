@@ -92,7 +92,7 @@ const AppSidebar: React.FC = () => {
   };
 
   const renderMenuItems = (items: NavItem[], menuType: "main" | "others") => (
-    <ul className="flex flex-col gap-4">
+    <ul className="flex flex-col gap-3">
       {items.map((nav, index) => (
         <li key={nav.name}>
           {nav.subItems ? (
@@ -216,22 +216,23 @@ const AppSidebar: React.FC = () => {
   );
 
   return (
-    <aside
-      className={`fixed mt-16 flex flex-col lg:mt-0 top-0 px-5 left-0 bg-[#172759] h-screen transition-all duration-300 ease-in-out z-50 border-r border-gray-200 
-        ${
-          isExpanded || isMobileOpen
-            ? "w-[290px]"
-            : isHovered
-            ? "w-[290px]"
-            : "w-[90px]"
-        }
-        ${isMobileOpen ? "translate-x-0" : "-translate-x-full"}
-        lg:translate-x-0`}
-      onMouseEnter={() => !isExpanded && setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
+  <aside
+  className={`fixed mt-16 flex flex-col lg:mt-0 top-0 px-5 left-0 bg-[#172759] h-screen transition-all duration-300 ease-in-out z-50 border-r border-gray-200 
+    ${
+      isExpanded || isMobileOpen
+        ? "w-[240px]"
+        : isHovered
+        ? "w-[240px]"
+        : "w-[90px]"
+    }
+    ${isMobileOpen ? "translate-x-0" : "-translate-x-full"}
+    lg:translate-x-0
+    rounded-tr-[20px]`} 
+  onMouseEnter={() => !isExpanded && setIsHovered(true)}
+  onMouseLeave={() => setIsHovered(false)}
+>
       <div
-        className={`py-8 flex ${
+        className={`py-6 flex ${
           !isExpanded && !isHovered ? "lg:justify-center" : "justify-center"
         }`}
       >
@@ -242,23 +243,23 @@ const AppSidebar: React.FC = () => {
                 className="dark:hidden"
                 src="/images/logo/logo-icon.svg"
                 alt="Logo"
-                width={130}
-                height={40}
+                width={120}
+                height={30}
               />
               <img
                 className="hidden dark:block"
                 src="/images/logo/logo.svg"
                 alt="Logo"
-                width={150}
-                height={40}
+                width={120}
+                height={30}
               />
             </>
           ) : (
             <img
               src="/images/logo/logo-icon.svg"
               alt="Logo"
-              width={60}
-              height={60}
+              width={50}
+              height={50}
             />
           )}
         </Link>
@@ -270,7 +271,7 @@ const AppSidebar: React.FC = () => {
             <div>
               <h2 className="mb-4 text-xs uppercase flex leading-[20px] text-[#F7F9FC]">
                 {isExpanded || isHovered || isMobileOpen ? (
-                  "Menu"
+                  ""
                 ) : (
                   <HorizontaLDots className="size-6 text-[#F7F9FC]" />
                 )}
