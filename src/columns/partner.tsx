@@ -31,7 +31,7 @@ export const getColumns = ({
     header: "View As Chart",
     render: (row) => (
       <Link to={`/${row.id}/chart`}>
-        <AltChartIcon />
+        <AltChartIcon className="ml-7" />
       </Link>
     ),
   },
