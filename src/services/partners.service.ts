@@ -12,7 +12,7 @@ export const _PartnerApi = {
     return response.data;
   },
 
-  getPartnerById: async (id: string) => {
+  getPartnerById: async (id: number) => {
     const response = await _axios.get(`/organizations/${id}`);
     return response.data;
   },
@@ -40,6 +40,11 @@ export const _PartnerApi = {
   // DELETE OPERATION (using status update)
   disablePartner: async (id: string) => {
     const response = await _axios.patch(`/organizations/${id}/DISABLED`);
+    return response.data;
+  },
+
+  getOrgChildren: async (id: number | string) => {
+    const response = await _axios.get(`/organizations/${id}/children`);
     return response.data;
   },
 };

@@ -50,7 +50,7 @@ const RoutesComponent = () => {
           <Route path="/home" element={<Home />} />
           <Route path="/partners" element={<Partners />} />
           <Route path="/users/:id" element={<UsersPartners />} />
-          <Route path="/partners/:id/chart" element={<PartnersAsChart />} />
+          <Route path="/:id/chart" element={<PartnersAsChart />} />
           <Route path="/merchants" element={<Merchants />} />
           <Route path="/merchants/:id" element={<UsersMarchants />} />
           <Route path="/branches" element={<Branches />} />

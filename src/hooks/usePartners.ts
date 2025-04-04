@@ -21,7 +21,7 @@ export const useFetchPartnersByType = () => {
 };
 
 // FETCH SINGLE PARTNER
-export const useFetchPartner = (id: string, options = {}) => {
+export const useFetchPartner = (id: number, options = {}) => {
   return useQuery({
     queryKey: [queryKeys.PARTNER, id],
     queryFn: () => _PartnerApi.getPartnerById(id),
@@ -77,5 +77,35 @@ export const useDeletePartner = () => {
         queryKey: [queryKeys.PARTNERS],
       });
     },
+  });
+};
+
+
+const buildOrgTree = async (org: any) => {
+  const children = await _PartnerApi.getOrgChildren(org.id);
+  const mappedChildren = await Promise.all(
+    children.map(async (child: any) => {
+      return {
+        ...child.data,
+        children: await buildOrgTree(child.data),
+      };
+    })
+  );
+
+  return mappedChildren;
+};
+
+export const usePartnerOrgTree = (partnerId: number) => {
+  return useQuery({
+    queryKey: ["partner-tree", partnerId],
+    queryFn: async () => {
+      const partner = await _PartnerApi.getPartnerById(partnerId);
+      const children = await buildOrgTree(partner);
+      return {
+        ...partner,
+        children,
+      };
+    },
+    enabled: !!partnerId,
   });
 };
