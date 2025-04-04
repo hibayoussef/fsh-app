@@ -19,7 +19,7 @@ const schema = yup.object().shape({
   description: yup.string().required("Description is required"),
   address: yup.string().optional(),
   logoBase64: yup.string().optional(),
-  partnerId: yup.number().optional(),
+  branchId: yup.number().optional(),
   users: yup.array().of(
     yup
       .object()
@@ -38,12 +38,12 @@ const TerminalForm = ({
   isOpen,
   handleClose,
   initialData,
-  partnerData,
+  branchesData,
 }: {
   isOpen: boolean;
   handleClose: () => void;
   initialData?: any;
-  partnerData?: any;
+  branchesData?: any;
 }) => {
   const {
     register,
@@ -58,14 +58,13 @@ const TerminalForm = ({
       name: "",
       description: "",
       address: "",
-      partnerId: 0,
+      branchId: 0,
       logoBase64: "",
       users: [{ firstName: "", lastName: "", email: "", phoneNumber: "" }],
       enabled: false,
     },
   });
 
-  console.log('termkkfv:', partnerData)
   useEffect(() => {
     if (initialData) {
       reset(initialData);
@@ -109,7 +108,7 @@ const TerminalForm = ({
       });
     } else {
       await addMutation({
-        branchId: Number(values?.partnerId),
+        branchId: Number(values?.branchId),
         data: payload,
       });
     }
@@ -160,14 +159,14 @@ const TerminalForm = ({
               )}
             </div>
             <div>
-              <Label>Partner Name</Label>
+              <Label>Branch Name</Label>
               <Controller
-                name="partnerId"
+                name="branchId"
                 control={control}
                 render={({ field }) => (
                   <Select
                     {...field}
-                    options={partnerData.map((partner) => ({
+                    options={branchesData.map((partner) => ({
                       value: String(partner.id),
                       label: partner.name,
                     }))}

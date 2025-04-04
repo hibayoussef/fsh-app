@@ -17,7 +17,7 @@ export const getColumns = ({
 }: ColumnsProps): Column<OrganizationModel>[] => [
   {
     key: "name",
-    header: "Partner Name",
+    header: "Name",
   },
   {
     key: "description",

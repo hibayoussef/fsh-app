@@ -159,7 +159,7 @@ const MerchantsForm = ({
               )}
             </div>
             <div>
-              <Label>Partner Name</Label>
+              <Label>Merchant Name</Label>
               <Controller
                 name="partnerId"
                 control={control}

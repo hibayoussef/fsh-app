@@ -24,7 +24,7 @@ const Node = ({ text }: { text: string }) => {
 const PartnersAsChart = () => {
   return (
     <div className="space-y-2">
-      <h2 className="text-[#222B45] font-semibold">[Partner name] Chart</h2>
+      <h2 className="text-[#222B45] font-semibold">Chart</h2>
       <div className="px-5 py-8 bg-white rounded-[4px]">
         <Tree
           lineWidth={"1px"}

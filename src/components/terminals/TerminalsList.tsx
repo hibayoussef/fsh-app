@@ -34,7 +34,6 @@ const TerminalsList = () => {
 
   const { data } = useFetchBranchesByType();
 
-  console.log('bbbbbbbbbbbb: ', data)
   useEffect(() => {
     if (terminals) {
       setOrganizations(terminals);
@@ -57,7 +56,7 @@ const TerminalsList = () => {
           setSelectedData(null);
         }}
         initialData={selectedData} 
-        partnerData={data}
+        branchesData={data}
       />
       
       <ConfirmDelete

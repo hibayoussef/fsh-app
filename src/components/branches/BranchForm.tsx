@@ -159,7 +159,7 @@ const BranchForm = ({
               )}
             </div>
             <div>
-              <Label>Partner Name</Label>
+              <Label>Branch Name</Label>
               <Controller
                 name="partnerId"
                 control={control}
