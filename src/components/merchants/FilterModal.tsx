@@ -23,7 +23,9 @@ export default function FilterModal() {
 
       {isOpen && (
         <div className="absolute top-9 left-0 w-96 bg-white shadow-lg rounded-[4px] p-6 border border-gray-200">
-          <h2 className="text-lg font-semibold mb-4">Filter partners</h2>
+          <h2 className="text-lg font-semibold mb-4">Filter
+            {/* partners */}
+          </h2>
 
           <div className="space-y-4">
             <div>

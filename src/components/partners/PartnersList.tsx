@@ -61,7 +61,7 @@ const PartnersList = () => {
       />
 
       <div className="space-y-3">
-        <h2 className="text-label font-semibold">TerminalsList in our system</h2>
+        <h2 className="text-label font-semibold">Partners in our system</h2>
         <ComponentCard
           title={
             <div className="flex justify-between items-center">
