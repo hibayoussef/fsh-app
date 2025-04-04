@@ -49,6 +49,7 @@ import { usePartnerOrgTree } from "../../hooks/usePartners";
 import Button from "../../components/ui/button/Button";
 import { PencilIcon, TrashBinIcon } from "../../icons";
 import { useParams } from "react-router";
+import Loader from "../../components/ui/loder/loader";
 
 const Node = ({ text }: { text: string }) => {
   return (
@@ -82,7 +83,7 @@ const PartnersAsChart = () => {
 
   const { data, isLoading } = usePartnerOrgTree(Number(id));
 
-  if (isLoading) return <div>Loading...</div>;
+  if (isLoading) return <Loader />
 
   return (
     <div className="space-y-2">

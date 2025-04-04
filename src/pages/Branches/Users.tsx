@@ -5,6 +5,7 @@ import { useFetchOrganizationUsers } from "../../hooks/useOrganization";
 import { OrganizationUser } from "../../types/organization";
 import Button from "../../components/ui/button/Button";
 import { PencilIcon } from "../../icons";
+import Loader from "../../components/ui/loder/loader";
 
 const UsersBranches = () => {
   const { id } = useParams();
@@ -39,7 +40,7 @@ const UsersBranches = () => {
     },
   ];
 
-  if (isLoading) return <>Loading...</>;
+  if (isLoading) return <Loader />;
 
   return (
     <div className="space-y-3">

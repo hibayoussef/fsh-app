@@ -10,6 +10,7 @@ import Label from "../form/Label";
 import Switch from "../form/switch/Switch";
 import Button from "../ui/button/Button";
 import { Modal } from "../ui/modal";
+import Loader from "../ui/loder/loader";
 
 const UsersList = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -64,7 +65,7 @@ const UsersList = () => {
     setIsOpen(false);
   }
 
-  if (isLoading) return <>Loading...</>;
+  if (isLoading) return <Loader />;
 
   return (
     <div className="space-y-3">
