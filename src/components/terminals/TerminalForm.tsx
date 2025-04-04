@@ -166,11 +166,11 @@ const TerminalForm = ({
                 render={({ field }) => (
                   <Select
                     {...field}
-                    options={branchesData.map((partner) => ({
-                      value: String(partner.id),
-                      label: partner.name,
+                    options={branchesData.map((branch) => ({
+                      value: String(branch.id),
+                      label: branch.name,
                     }))}
-                    placeholder="Select a Partner"
+                    placeholder="Select a Branch"
                     onChange={(value) => field.onChange(Number(value))}
                   />
                 )}

@@ -19,7 +19,7 @@ const schema = yup.object().shape({
   description: yup.string().required("Description is required"),
   address: yup.string().optional(),
   logoBase64: yup.string().optional(),
-  partnerId: yup.number().optional(),
+  merchantId: yup.number().optional(),
   users: yup.array().of(
     yup
       .object()
@@ -38,12 +38,12 @@ const BranchForm = ({
   isOpen,
   handleClose,
   initialData,
-  partnerData,
+  merchantsData,
 }: {
   isOpen: boolean;
   handleClose: () => void;
   initialData?: any;
-  partnerData?: any;
+  merchantsData?: any;
 }) => {
   const {
     register,
@@ -58,7 +58,7 @@ const BranchForm = ({
       name: "",
       description: "",
       address: "",
-      partnerId: 0,
+      merchantId: 0,
       logoBase64: "",
       users: [{ firstName: "", lastName: "", email: "", phoneNumber: "" }],
       enabled: false,
@@ -108,7 +108,7 @@ const BranchForm = ({
       });
     } else {
       await addMutation({
-        merchantId: Number(values?.partnerId),
+        merchantId: Number(values?.merchantId),
         data: payload,
       });
     }
@@ -159,18 +159,18 @@ const BranchForm = ({
               )}
             </div>
             <div>
-              <Label>Branch Name</Label>
+              <Label>Merchant Name</Label>
               <Controller
-                name="partnerId"
+                name="merchantId"
                 control={control}
                 render={({ field }) => (
                   <Select
                     {...field}
-                    options={partnerData.map((partner) => ({
-                      value: String(partner.id),
-                      label: partner.name,
+                    options={merchantsData.map((merchant) => ({
+                      value: String(merchant.id),
+                      label: merchant.name,
                     }))}
-                    placeholder="Select a Partner"
+                    placeholder="Select a Merchant"
                     onChange={(value) => field.onChange(Number(value))}
                   />
                 )}

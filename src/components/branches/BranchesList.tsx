@@ -30,7 +30,6 @@ const BranchesList = () => {
     }
   };
 
-
   const { data } = useFetchMerchantsByType();
 
   useEffect(() => {
@@ -54,10 +53,10 @@ const BranchesList = () => {
           setIsOpen(false);
           setSelectedData(null);
         }}
-        initialData={selectedData} 
-        partnerData={data}
+        initialData={selectedData}
+        merchantsData={data}
       />
-      
+
       <ConfirmDelete
         isOpen={isDeleteOpen}
         handleClose={() => setIsDeleteOpen(false)}
@@ -93,7 +92,7 @@ const BranchesList = () => {
           }
         >
           <DataTable
-            data={branches || []}  
+            data={branches || []}
             columns={columns}
             isLoading={isLoading}
             selectedRows={selectedRows}
