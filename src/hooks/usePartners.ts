@@ -33,9 +33,12 @@ export const useFetchPartner = (id: string, options = {}) => {
 // ADD PARTNER
 export const useAddPartner = () => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: _PartnerApi.createPartner,
     onSuccess: () => {
+       queryClient.invalidateQueries({ queryKey: [queryKeys.PARTNERS] });
       navigate("/partners");
     },
   });
@@ -44,10 +47,13 @@ export const useAddPartner = () => {
 // UPDATE PARTNER
 export const useUpdatePartner = () => {
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: ({ id, data }: { id: string; data: any }) =>
       _PartnerApi.updatePartner(id, data),
     onSuccess: () => {
+       queryClient.invalidateQueries({ queryKey: [queryKeys.PARTNERS] });
       navigate("/partners");
     },
   });
