@@ -13,7 +13,7 @@ export const HttpRequestInterceptor = () => {
           !(request.data instanceof FormData) &&
           !request.headers["Content-Type"]
         ) {
-          request.headers["Content-Type"] = "application/json";
+          request.headers["Content-Type"] = "application/x-www-form-urlencoded";
         }
       }
 

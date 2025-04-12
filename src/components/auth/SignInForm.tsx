@@ -5,7 +5,8 @@ import Label from "../form/Label";
 import Checkbox from "../form/input/Checkbox";
 import Input from "../form/input/InputField";
 import Button from "../ui/button/Button";
-import { useLogin } from "../../hooks/useLogin";
+import { useLogin } from "../../hooks/useAuth";
+import Loader from "../ui/loder/loader";
 
 export default function SignInForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -78,7 +79,6 @@ export default function SignInForm() {
                     Forgot password?
                   </Link>
                 </div>
-                
                 <div>
                   <Button
                     type="submit"
@@ -86,7 +86,7 @@ export default function SignInForm() {
                     size="sm"
                     disabled={isPending}
                   >
-                    {isPending ? "Signing in..." : "Sign in"}
+                    {isPending ? <Loader /> : "Sign in"}
                   </Button>
                 </div>
               </div>

@@ -10,6 +10,8 @@ export const HttpResponseInterceptor = (navigate: NavigateFunction) => {
       const url = config?.url;
       const method = config?.method;
 
+      if (url === "/update-device-token") return response;
+
       if (["post", "put", "patch", "delete"].includes(method || "")) {
         toast.success(data.message, { position: "top-right", autoClose: 3000 });
       }
@@ -21,6 +23,8 @@ export const HttpResponseInterceptor = (navigate: NavigateFunction) => {
       const url = config?.url;
       const status = response?.status;
       const message = response?.data?.message;
+
+      if (url === "/update-device-token") return Promise.reject(error);
 
       const showErrorToast = (msg: string) =>
         toast.error(msg, { position: "top-right", autoClose: 3000 });

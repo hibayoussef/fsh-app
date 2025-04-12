@@ -25,10 +25,15 @@ export default {
         "theme-xs": ["12px", "18px"],
       },
       colors: {
+        primary: "#49CFB0",
+        secondary: "#247D81",
+        label: "#293241",
         current: "currentColor",
         transparent: "transparent",
         white: "#FFFFFF",
         black: "#101828",
+        mainBlack: "#222B45",
+        placeholderText: "#64748B",
         brand: {
           25: "#F2F7FF",
           50: "#ECF3FF",

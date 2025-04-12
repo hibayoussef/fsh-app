@@ -1,10 +1,17 @@
 import { useState } from "react";
-import { DropdownItem } from "../ui/dropdown/DropdownItem";
+import { useNavigate } from "react-router";
+import { useFetchCurrentUser } from "../../hooks/useProfile";
+import { _AuthApi } from "../../services/auth.service";
 import { Dropdown } from "../ui/dropdown/Dropdown";
-import { Link } from "react-router";
+import { DropdownItem } from "../ui/dropdown/DropdownItem";
+import Loader from "../ui/loder/loader";
 
 export default function UserDropdown() {
   const [isOpen, setIsOpen] = useState(false);
+
+  const { data: user } = useFetchCurrentUser();
+
+  const navigate = useNavigate();
 
   function toggleDropdown() {
     setIsOpen(!isOpen);
@@ -13,17 +20,37 @@ export default function UserDropdown() {
   function closeDropdown() {
     setIsOpen(false);
   }
+
+  async function handleLogout() {
+    try {
+      await _AuthApi.logout();
+      navigate("/signin");
+    } catch (error) {
+      console.error("Logout failed:", error);
+    }
+  }
+
   return (
     <div className="relative">
-      <button
+      {/* <button
         onClick={toggleDropdown}
         className="flex items-center text-gray-700 dropdown-toggle dark:text-gray-400"
       >
         <span className="mr-3 overflow-hidden rounded-full h-11 w-11">
-          <img src="/images/user/owner.jpg" alt="User" />
+          <img
+            src={
+              // user?.profileImageURL
+              //   ? user.profileImageURL
+              //   :
+                "./../../../public/images/auth/account.jpg"
+            }
+            alt="User"
+          />
         </span>
 
-        <span className="block mr-1 font-medium text-theme-sm">Musharof</span>
+        <span className="block mr-1 font-medium text-theme-sm">
+          {user ? user.firstName : "User"}
+        </span>
         <svg
           className={`stroke-gray-500 dark:stroke-gray-400 transition-transform duration-200 ${
             isOpen ? "rotate-180" : ""
@@ -42,8 +69,22 @@ export default function UserDropdown() {
             strokeLinejoin="round"
           />
         </svg>
+      </button> */}
+      <button
+        onClick={toggleDropdown}
+        className="overflow-hidden rounded-[10px] h-9 w-9 border-2 border-gray-300 dark:border-gray-600"
+      >
+        <img
+          src={
+            // user?.profileImageURL
+            //   ? user.profileImageURL
+            //   :
+            "./../../../public/images/auth/account.jpg"
+          }
+          alt="User"
+          className="h-full w-full object-cover"
+        />
       </button>
-
       <Dropdown
         isOpen={isOpen}
         onClose={closeDropdown}
@@ -51,10 +92,10 @@ export default function UserDropdown() {
       >
         <div>
           <span className="block font-medium text-gray-700 text-theme-sm dark:text-gray-400">
-            Musharof Chowdhury
+            {user ? `${user.firstName} ${user.lastName}` : <Loader />}{" "}
           </span>
           <span className="mt-0.5 block text-theme-xs text-gray-500 dark:text-gray-400">
-            randomuser@pimjo.com
+            {user ? user.email : <Loader />}
           </span>
         </div>
 
@@ -135,9 +176,9 @@ export default function UserDropdown() {
             </DropdownItem>
           </li>
         </ul>
-        <Link
-          to="/signin"
+        <button
           className="flex items-center gap-3 px-3 py-2 mt-3 font-medium text-gray-700 rounded-lg group text-theme-sm hover:bg-gray-100 hover:text-gray-700 dark:text-gray-400 dark:hover:bg-white/5 dark:hover:text-gray-300"
+          onClick={handleLogout}
         >
           <svg
             className="fill-gray-500 group-hover:fill-gray-700 dark:group-hover:fill-gray-300"
@@ -155,7 +196,7 @@ export default function UserDropdown() {
             />
           </svg>
           Sign out
-        </Link>
+        </button>
       </Dropdown>
     </div>
   );

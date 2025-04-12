@@ -1,28 +1,44 @@
 import { create } from "zustand";
-import type { ILoginRequest } from "../types/auth";
+import type { ILoginDTO } from "../types/auth";
 import type { AuthState } from "../types/store";
 
-export const useAuthStore = create<AuthState>((set) => ({
-  token: localStorage.getItem("token") || null,
-  isAuthenticated: !!localStorage.getItem("token"),
+export const useAuthStore = create<AuthState>((set) => {
+  // Safely retrieve user data
+  const getUserFromLocalStorage = () => {
+    try {
+      const user = localStorage.getItem("user");
+      return user ? JSON.parse(user) : null;
+    } catch (error) {
+      console.error("Error parsing user data from localStorage", error);
+      return null;
+    }
+  };
 
-  login: (userData: ILoginRequest, token: string) => {
-    localStorage.setItem("token", token);
+  return {
+    token: localStorage.getItem("token") || null,
+    isAuthenticated: !!localStorage.getItem("token"),
+    user: getUserFromLocalStorage(),
 
-    set({
-      token,
-      isAuthenticated: true,
-    });
-  },
+    login: (userData: ILoginDTO, token: string) => {
+      localStorage.setItem("token", token);
+      localStorage.setItem("user", JSON.stringify(userData));
 
-  logout: () => {
-    localStorage.removeItem("token");
-    localStorage.removeItem("permissions");
+      set({
+        token,
+        isAuthenticated: true,
+        user: userData,
+      });
+    },
 
-    set({
-      token: null,
-      isAuthenticated: false,
-      permissions: [],
-    });
-  },
-}));
+    logout: () => {
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+
+      set({
+        token: null,
+        isAuthenticated: false,
+        user: null,
+      });
+    },
+  };
+});
